@@ -1,0 +1,44 @@
+http://msdn.microsoft.com/pt-br/library/ms162773.aspx -- Utilitário sqlcmd
+http://msdn.microsoft.com/pt-br/library/ms165702.aspx -- Usando o utilitário sqlcmd (SQL Server Express)
+http://msdn.microsoft.com/pt-br/library/ms190737.aspx -- Usando as opções de inicialização do serviço do SQL Server
+http://msdn.microsoft.com/pt-br/library/ms180965.aspx -- Como iniciar uma instância do SQL Server (sqlservr.exe)
+
+
+-- Para iniciar a instância padrão do SQL Server com configuração mínima
+sqlservr.exe -f
+
+-- Aumetando a memória
+sp_configure 'show advanced options', 1
+RECONFIGURE
+GO
+sp_configure 'max server memory', 24000
+
+
+-------------------------------------------
+- Entrando no SQL Server como single user -
+-------------------------------------------
+
+No prompt de comando (CMD)
+
+1. Pare o Serviço do SQL Server
+C:\>NET STOP MSSQLSERVER
+
+2. Iniciar como Single User Mode (-m)
+C:\...\MSSQL\Binn>SQLSERVR.EXE -m
+
+3. Conectar via SQLCMD (Abra um novo prompt de comando) - Instancia (-S) / Autenticação do Windows (-E)
+C:\>SQLCMD -SLOCALHOST -E
+1>
+
+Agora pode fazer o que quizer...
+Exemplo: Restaurar o banco de dados master
+1>RESTORE DATABASE master FROM DISK = 'C:\master.bak' WITH REPLACE
+2>GO
+
+Habilitar as Opções Avançadas
+1> EXEC sp_configure 'show advanced option', '1';
+2> GO
+
+Aumentar o tamanho máximo de memória
+1> EXEC sp_configure 'max server memory (MB)', '300';
+2> GO
