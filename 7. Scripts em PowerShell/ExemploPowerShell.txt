@@ -1,0 +1,134 @@
+Windows PowerShell
+Copyright (C) 2009 Microsoft Corporation. Todos os direitos reservados.
+
+PS C:\Users\Alex> dir
+
+
+    Diretório: C:\Users\Alex
+
+
+Mode                LastWriteTime     Length Name
+----                -------------     ------ ----
+d-r--        17/11/2008     22:01            Contacts
+d-r--        29/11/2009      9:16            Desktop
+d-r--        22/11/2009     10:35            Documents
+d-r--        17/11/2008     22:01            Downloads
+d-r--        08/12/2009     20:32            Favorites
+d-r--        17/11/2008     22:01            Links
+d-r--        17/11/2008     22:01            Music
+d-r--        09/12/2009     13:31            Pictures
+d-r--        17/11/2008     22:01            Saved Games
+d-r--        17/11/2008     22:01            Searches
+d-r--        17/11/2008     22:01            Videos
+-a---        19/11/2008     20:13        355 Rede - Atalho.lnk
+
+
+PS C:\Users\Alex> sqlps
+Microsoft SQL Server PowerShell
+Versão 10.0.1600.22
+Microsoft Corp. All rights reserved.
+
+PS SQLSERVER:\>
+PS SQLSERVER:\>
+PS SQLSERVER:\> dir
+
+Name            Root                           Description
+----            ----                           -----------
+SQL             SQLSERVER:\SQL                 Mecanismo de Banco de Dados do SQL Serve
+                                               r
+SQLPolicy       SQLSERVER:\SQLPolicy           Gerenciamento de Diretivas do SQL Server
+SQLRegistration SQLSERVER:\SQLRegistration     Registros do SQL Server
+DataCollection  SQLSERVER:\DataCollection      Coleta de Dados do SQL Server
+
+
+PS SQLSERVER:\> cd sql
+PS SQLSERVER:\sql> dir
+
+MachineName
+-----------
+AAS
+
+
+PS SQLSERVER:\sql> cd aas
+PS SQLSERVER:\sql\aas> dir
+
+Instance Name
+-------------
+SQL2008
+
+
+PS SQLSERVER:\sql\aas> cd sql2008
+PS SQLSERVER:\sql\aas\sql2008> dir
+Audits
+BackupDevices
+Credentials
+CryptographicProviders
+Databases
+Endpoints
+JobServer
+Languages
+LinkedServers
+Logins
+Mail
+ResourceGovernor
+Roles
+ServerAuditSpecifications
+SystemDataTypes
+SystemMessages
+Triggers
+UserDefinedMessages
+PS SQLSERVER:\sql\aas\sql2008> cd databases
+PS SQLSERVER:\sql\aas\sql2008\databases> dir
+
+Name                 Status          Recovery Model CompatLvl Collation                      Owner
+----                 ------          -------------- --------- ---------                      -----
+Dw_NegociandoCE      Normal          Full                 100 Latin1_General_CI_AS           AAS\Alex
+EstudoSQL2008        Normal          Full                 100 Latin1_General_CI_AS           AAS\Alex
+ReportServer$SQL2008 Normal          Full                 100 Latin1_General_CI_AS_KS_WS     AAS\Alex
+ReportServer$SQL2008 Normal          Simple               100 Latin1_General_CI_AS_KS_WS     AAS\Alex
+TempDB
+
+
+PS SQLSERVER:\sql\aas\sql2008\databases> cd estudoSQL2008
+PS SQLSERVER:\sql\aas\sql2008\databases\estudoSQL2008> dir
+ApplicationRoles
+Assemblies
+AsymmetricKeys
+Certificates
+DatabaseAuditSpecifications
+Defaults
+ExtendedProperties
+ExtendedStoredProcedures
+FileGroups
+FullTextCatalogs
+FullTextStopLists
+LogFiles
+PartitionFunctions
+PartitionSchemes
+PlanGuides
+Roles
+Rules
+Schemas
+ServiceBroker
+StoredProcedures
+SymmetricKeys
+Synonyms
+Tables
+Triggers
+UserDefinedAggregates
+UserDefinedDataTypes
+UserDefinedFunctions
+UserDefinedTableTypes
+UserDefinedTypes
+Users
+Views
+XmlSchemaCollections
+PS SQLSERVER:\sql\aas\sql2008\databases\estudoSQL2008> cd tables
+PS SQLSERVER:\sql\aas\sql2008\databases\estudoSQL2008\tables> ls
+
+Schema                       Name                           Created
+------                       ----                           -------
+dbo                          Produce                        06/12/2009 11:51
+
+
+PS SQLSERVER:\sql\aas\sql2008\databases\estudoSQL2008\tables>
