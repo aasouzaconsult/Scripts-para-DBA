@@ -1,0 +1,8 @@
+http://rusanu.com/2014/02/24/how-to-analyse-sql-server-performance/#how_it_works
+
+http://imasters.com.br/banco-de-dados/sql-server/como-analisar-o-desempenho-sql-server-parte-01/
+http://imasters.com.br/banco-de-dados/sql-server/como-analisar-o-desempenho-sql-server-parte-02/
+http://imasters.com.br/banco-de-dados/sql-server/como-analisar-o-desempenho-sql-server-parte-03/
+http://imasters.com.br/banco-de-dados/sql-server/como-analisar-o-desempenho-sql-server-parte-04/
+http://imasters.com.br/banco-de-dados/sql-server/como-analisar-o-desempenho-sql-server-parte-05/
+http://imasters.com.br/banco-de-dados/sql-server/como-analisar-o-desempenho-sql-server-parte-06/
