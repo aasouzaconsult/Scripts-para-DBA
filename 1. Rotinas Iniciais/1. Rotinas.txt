@@ -1,0 +1,149 @@
+﻿- Gerenciamento de Servidores
+-- Registered Servers - OK
+
+- Hotfixes, Cumulative Updates e Services Packs
+-- http://blogs.msdn.com/b/sqlreleaseservices/
+
+- Backup 
+-- Todos os jobs estão funcionando corretamente? - OK
+-- Todos os bancos de dados estão no backup?     - OK
+-- Backup em fita? offsite?            
+-- Testes de restore estão sendo feitos?         
+--- Rodar tb o DBCC CHECKDB
+-- Onde os backups estão armazenados (fisicamente)
+-- Planejar estratégia de RESTORE e não de backup
+
+- ErrorLog (SQL Server e Agent) 
+-- Alguma coisa fora do padrão?                  - OK
+-- DBCC TRACEON (3226) to disable backup success message -- http://msdn.microsoft.com/en-us/library/ms188396.aspx                         - OK  
+
+- Estatísticas 
+-- Não esqueça das estatísticas criadas por você e gerada automaticamente "_WA_SYS..." 
+
+- Documentação atualizada
+-- Sim meu amigo DBA, documentação.
+--- Versão
+--- SP
+--- Funcionalidades
+--- Jobs
+--- Alertas
+
+- Criptografia
+-- Já fez o backup da SMK? Chaves do banco de dados?
+
+- PAGE_VERIY = CHECKSUM              - OK
+
+- Checagem de consistência
+-- DBCC CHECKDB em ambiente paralelo
+-- Trace flag 2528 para desabilitar paralelismo
+
+- Blocked Process Report
+--  Cuidado com valores muito baixos!
+
+- Segurança
+-- Usuários com privilégios elevados
+--- TopManager
+-- SysAdmins
+
+- Arquivos
+-- Evitar crescimento durante o dia (principalmente o T-Log)
+-- Instant File Initialization
+-- Fragmentação de VLF
+
+- Acompanhamento do ambiente (baseline) *
+-- Data cache
+-- Top 10s plan cache
+-- Memory Clerks
+
+- Disaster Recovery
+-- Tenha o plano de DR em mãos
+-- Prepare-se para o pior cenário
+-- Na hora do desespero, você vai cometer erros
+
+- Database mail e alertas
+-- Se você recebe 8293842398432 e-mails, o importante vai ficar escondido
+-- Depois de estabilizado, somente receba notificações de falhas
+-- Job que continuamente manda e-mails para indicar que SQL Agent está rodando
+
+- Configurações 
+-- Max Server Memory (Bpool!), MAXDOP, Priority Boost 
+-- Tempdb com múltiplos arquivos de mesmo tamanho
+-- AUTO_SHRINK (Não ativar automático)
+
+- Performance
+-- Sort e hash warning
+-- Index_usage_stats 
+
+- Windows em modo de economia (cuidado)
+
+- Alta disponibilidade
+-- Configuração e monitoramento
+
+- Definir SLAs
+
+- Horário de estudo
+-- Se preferir a madrugada é sua amiga, mas...
+-- Novas funcionalidades
+-- Nova versão do produto
+-- Áreas relacionadas: storage, SO, networking, desenv, etc. 
+
+- Revisão de código
+-- O desenvolvedor não erra, mas não custa verificar
+
+- Novos projetos
+
+
+-----------
+-- DEMOS --
+-----------
+DEMO 1 PBM, MS Polices.txt
+- Policy Management
+
+*** Blocked process threshold.sql ***
+- Consultas Bloqueadas a tantos segundos
+- Aparece no SQL Profiler
+
+sp_whoisactive, Locks.sql
+- estudar para analisar lock
+
+BASELINE
+- Default Trace
+-- SELECT * FROM :: fn_trace_getinfo(DEFAULT)
+--- pasta padrão de log do SQL Server
+- ServerSideTrace
+- ClearTrace
+- Perfmon
+-- PAL
+
+DEFRAG
+
+USO DE DISCO
+
+
+-----------
+-- DICAS --
+-----------
+PAL
+http://pal.codeplex.com/relases/view/51623
+
+ClearTrace
+http://www.scalesql.com/cleartrace
+
+Scripts
+http://sqlfool.com/2011/06/index-defrag-script-v4-1/
+http://ola.hallengren.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
