@@ -1,0 +1,60 @@
+/*	A dica de hoje tem o objetivo de demonstrar algumas maneiras de utilizar cursores no SQL Server, 
+sendo este recurso muito questionado por exigir em determinadas situações um processamento elevado 
+por parte do servidor SQL Server. 
+Veja abaixo alguns exemplos:*/
+ 
+--CURSOR NEXT--
+DECLARE 
+	@REGISTRO	INT
+,	@CODIGO		INT
+,	@DESCRICAO	VARCHAR(50)
+
+SET @REGISTRO=0
+
+DECLARE PRODUTOS_CURSOR CURSOR FOR
+
+SELECT CODIGO, DESCRICAO FROM PRODUTOS
+
+OPEN PRODUTOS_CURSOR
+	WHILE @REGISTRO <=10
+		BEGIN
+			FETCH NEXT FROM PRODUTOS_CURSOR
+			INTO	@CODIGO
+				,	@DESCRICAO
+			INSERT INTO TESTE VALUES(@CODIGO, @DESCRICAO)
+			SET @REGISTRO=@REGISTRO+1
+			PRINT 'Código:'+CAST(@CODIGO AS VARCHAR(20))+' Declaração:'+@DESCRICAO
+		END
+CLOSE PRODUTOS_CURSOR
+
+DEALLOCATE PRODUTOS_CURSOR
+
+CREATE TABLE TESTE(CODIGO INT, DESCRICAO VARCHAR(50))
+
+SELECT * FROM TESTE
+
+/************************************************************/
+-- CURSOR LAST --
+DECLARE PRODUTOS_CURSOR SCROLL CURSOR FOR
+SELECT CODIGO, DESCRICAO FROM PRODUTOS
+OPEN PRODUTOS_CURSOR
+WHILE @REGISTRO <=10
+BEGIN
+	FETCH LAST FROM PRODUTOS_CURSOR
+/************************************************************/
+-- CURSOR PRIOR --
+DECLARE PRODUTOS_CURSOR SCROLL CURSOR FOR
+SELECT CODIGO, DESCRICAO FROM PRODUTOS
+OPEN PRODUTOS_CURSOR
+WHILE @REGISTRO <=10
+	BEGIN
+		FETCH PRIOR FROM PRODUTOS_CURSOR
+/************************************************************/
+-- CURSOR FIRST --
+DECLARE PRODUTOS_CURSOR SCROLL CURSOR FOR
+SELECT CODIGO, DESCRICAO FROM PRODUTOS
+OPEN PRODUTOS_CURSOR
+WHILE @REGISTRO <=10
+	BEGIN
+		FETCH FIRST FROM PRODUTOS_CURSOR
+/************************************************************/ 
