@@ -1,0 +1,24 @@
+RESTORE VERIFYONLY FROM
+DISK = 'C:\Backup\SQLServer\FPW\FPW_backup_2012_11_13_010004_5325363.bak'
+
+RESTORE VERIFYONLY FROM
+DISK = 'C:\Backup\SQLServer\Guberman\Guberman_backup_2012_11_13_010004_5365367.bak'
+
+RESTORE VERIFYONLY FROM
+DISK = 'C:\Backup\SQLServer\master\master_backup_2012_11_13_010004_3935224.bak'
+
+RESTORE VERIFYONLY FROM
+DISK = 'C:\Backup\SQLServer\Palm\Palm_backup_2012_11_13_010004_5415372.bak'
+
+RESTORE VERIFYONLY FROM
+DISK = 'C:\Backup\SQLServer\TeamViewer\TeamViewer_backup_2012_11_13_010004_5495380.bak'
+
+RESTORE VERIFYONLY FROM
+DISK = 'C:\Backup\SQLServer\TopManager\TopManager_backup_2012_11_13_010004_5895420.bak' -- 4min
+
+RESTORE VERIFYONLY FROM
+DISK = 'C:\Backup\SQLServer\TopRegina\TopRegina_backup_2012_11_13_010004_5665397.bak'
+
+RESTORE VERIFYONLY FROM
+DISK = 'C:\Backup\SQLServer\xmMonitor\xmMonitor_backup_2012_11_13_010004_5855416.bak'
+

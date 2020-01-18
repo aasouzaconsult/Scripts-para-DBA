@@ -1,0 +1,1766 @@
+                              Manual do Usuário
+                              ~~~~~~~~~~~~~~~~~
+
+                            Versão Console do RAR
+                            ~~~~~~~~~~~~~~~~~~~~~
+
+                         =-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                         Bem-vindo ao Compressor RAR!
+                         =-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+ Introdução
+ ~~~~~~~~~~
+
+    O RAR é uma poderosa ferramenta que permite gerar e controlar arquivos.
+    O arquivo é geralmente, um arquivo regular, cujo nome possui o sufixo ".rar".
+    
+  As funções do RAR incluem:
+
+    *  Algoritmo de compressão original e altamente sofisticado
+    *  Algoritmo de compressão especial otimizado para dados multimídia
+    *  Maior compressão que as ferramentas semelhantes, utilizando compressão 'sólida'
+    *  Verificação de autenticidade (apenas nas versões registradas)
+    *  Arquivos e volumes auto-extraíveis (SFX)
+    *  Possibilidade de recuperar arquivos fisicamente danificados
+    *  Bloqueio, senha, lista de organização de arquivos, arquivo de segurança e muito mais ...
+
+ Arquivo de configuração
+ ~~~~~~~~~~~~~~~~~~~~~~~~
+
+  O RAR para Unix e BeOS lê as informações de configuração no arquivo
+  .rarrc no diretório do usuário (armazenado na variável de ambiente HOME).
+
+  O RAR para Windows lê as informações de configuração no arquivo rar.ini,
+  situado no mesmo diretório do arquivo rar.exe.
+
+  Esse arquivo poderá conter os seguintes textos:
+
+  seqüências=<qualquer seqüência do RAR, separados com um espaço>
+
+
+ Variável de ambiente
+ ~~~~~~~~~~~~~~~~~~~~
+
+    Os parâmetros por padrão poderão ser adicionados à linha de comandos do
+    RAR estabelecendo uma variável de ambiente "RAR".
+
+    Por exemplo, no UNIX as seguintes linhas poderão ser adicionadas ao seu
+    perfil:
+
+      RAR='-s -md1024'
+      export RAR
+
+    O RAR irá utilizar este texto como os parâmetros por padrão na linha de
+    comandos e irá criar arquivos "sólidos" com um dicionário deslizante de
+    1024 KB.
+
+    O RAR processa as opções com a seguinte prioridade:
+
+       seqüências na linha de comandos                      - prioridade elevada
+       seqüências na variável RAR                           - prioridade baixa
+       seqüências armazenadas no arquivo de configuração    - prioridade inferior
+
+
+ Arquivo de registro
+ ~~~~~~~~~~~~~~~~~~~
+
+  Se a seqüência -ilog for especificada na linha de comandos ou no arquivo de
+  configuração, o RAR irá salvar as mensagens informativas, respeitante aos
+  erros encontrados durante o processamento dos arquivos, num arquivo de
+  registro.  No Unix e BeOS esse arquivo chama-se .rarlog e situa-se no
+  diretório do usuário. No Windows chama-se rar.log e está situado no mesmo
+  diretório do arquivo rar.exe.
+
+
+
+ A lista de organização de arquivos para compressão sólida - rarfiles.lst
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  rarfiles.lst contém listas de arquivos definidas pelo usuário que indicam
+  ao RAR a ordem de adição de arquivos para um arquivo sólido. Poderá conter
+  nomes de arquivos, incógnitas e uma entrada especial - $default. A
+  entrada por padrão define o local na lista organizadora dos arquivos não
+  constituintes do arquivo. O caractere do comentário é ';'.
+
+  No Windows esse arquivo deverá ser colocado no mesmo diretório do RAR,
+  no Unix e BeOS - para o diretório do usuário.
+
+  Sugestões para melhorar a compressão e velocidade da operação:
+
+  - os arquivos semelhantes deverão ser agrupados no arquivo;
+  - os arquivos frequentemente acessados deverão ser colocados no início.
+
+
+ Sintaxe do RAR na linha de comandos
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ Sintaxe
+
+    RAR <comando> [ -<seqüência> ] <arquivo> <@-lista de arquivos...>
+        [ <arquivos...> ]
+
+ Descrição
+
+    Opções na linha de comandos (comandos e comandos adicionais) fornecem o
+    controle da criação e gestão de arquivos no RAR. O comandos é um texto
+    (ou uma única letra) que  comanda o RAR no sentido de efetuar a ação
+    correspondente.
+    Os comandos adicionais são preparados para modificar o modo de
+    funcionamento do RAR em relação à ação. Outros parâmetros são o nome
+    do arquivo e arquivos a serem comprimidos ou extraídos do arquivo.
+
+    Arquivo de lista são arquivos de texto claros contendo nomes de arquivos 
+    para o processo.
+    Os nomes do arquivo devem iniciar na primeira coluna. É possível colocar 
+    comentários para o arquivo lista após os caracteres //. Por exemplo,
+    você pode criar o arquivo backup.lst contendo as seguintes seqüências:
+
+    c:\trabalho\doc\*.txt         //backup de documentos texto
+    c:\trabalho\imagem\*.bmp       //backup de imagens
+    c:\trabalho\misc
+
+    e então executar:
+
+       rar a backup @backup.lst
+
+    Se você desejar ler nomes de arquivo stdin (entrada padrão),
+    especifique um nome da arquivo vazio (somente @).
+
+    O console Win32 do RAR utiliza codificação OEM (DOS) na lista de arquivos.
+
+    Você pode especificar ambos os nomes de arquivo e arquivos de 
+    lista habituais na mesma linha de comando. Se nenhum arquivo 
+    nem lista de arquivos são especificados, então *.* é implicado 
+    e o RAR processará todos os arquivos.
+
+    No ambiente UNIX é necessário citar as incógnitas para prevenir a 
+    expansão pelo shell. Por exemplo, este comando irá extrair os 
+    arquivos *.asm dos arquivos RAR no caminho atual:
+
+       rar e '*.rar' '*.asm'
+
+
+    O comando poderá ser qualquer um dos seguintes:
+
+    a       Adicionar arquivos ao arquivo.
+
+            Exemplo:
+
+            criar ou atualizar o arquivo existente myarch, adicionado todos os
+            arquivos no diretório atual
+
+            rar a myarch
+
+
+    c       Adicionar um comentário ao arquivo. Os comentários são
+            apresentados durante o processamento do arquivo. O tamanho
+            do comentário está limitado em 62000 bytes
+
+            Exemplos:
+
+            rar c distrib.rar
+
+            Os comentários também poderão ser adicionados de um arquivo:
+
+            rar c -zinfo.txt dummy
+
+
+    cf      Adiciona comentário aos arquivos. Os comentários dos arquivos
+            são apresentados quando o comando 'v' é inserido. O tamanho
+            do comentário está limitado em 32767 bytes.
+
+            Exemplo:
+
+            rar cf bigarch *.txt
+
+
+    ch      Este comando pode ser usado com a maioria dos comandos adicionais
+            de arquivos para modificar seus parâmetros. É especialmente
+            conveniente para comandos adicionais -av, -cl, -cu, -tl, que não
+            tenha um comando dedicado.
+
+            Não é possível recomprimir, codificar ou decodificar dados de
+            compressão e ele não pode mesclar ou criar volumes. Se usados sem
+            quaisquer comandos adicionais, o comando 'ch' somente copia os
+            dados do arquivo sem modificação.
+
+            Exemplo:
+
+            configurar horário do arquivo para o arquivo mais recente
+
+            WinRAR ch -tl arquivos.rar
+
+
+    cw      Gravar um comentário de um arquivo numa compressão específica.
+
+            O formato do arquivo de saída depende do camando adicional -sw.
+
+            Exemplos:
+
+            1) rar cw arquivo comment.txt
+
+            2) rar cw -scuc arquivo unicode.txt
+
+            3) rar cw arc
+
+
+    d       Exclui arquivos do arquivo. Note, se do processamento deste comando
+            resultar na eliminação de todos os arquivos do arquivo, o arquivo
+            vazio será removido.
+
+
+    e       Extrair arquivos para o diretório atual.
+
+
+    f       Atualizar arquivos no arquivo. Atualiza os arquivos alterados
+            desde que foram comprimidos no arquivo. Este comando não irá
+            adicionar novos arquivos ao arquivo.
+
+
+    i[i|c|h|t]=<string>
+            Localiza seqüências em arquivos.
+
+            Suporta os seguintes parâmetros opcionais:
+
+              i - maiúsculas/minúsculas - busca dasativada (default);
+
+              c - maiúsculas/minúsculas - busca ativada;
+
+              h - busca hexadecimal;
+
+              t - use tabelas de caracteres ANSI, Unicode e OEM (somente Win32);
+
+            Se nenhum parâmetro for especificado, possibilitará o uso
+            da sintaxe de comando i<string> ao invés de i=<string>
+
+            Será permitido especificar 't' modificado com outros parâmetros,
+            por exemplo, ict=string executa a busca maiúsculas/minúsculas
+            usando toda a tabela de caracteres abaixo mencionados.
+
+            Exemplos:
+
+            1) rar "ic=first level" -r c:\*.rar *.txt
+
+            Executa a busca de maiúsculas/minúsculas da seqüência "primeiro
+            nível" em arquivos *.txt em arquivos comprimidos *.rar no disco c:
+
+            2) rar ih=f0e0aeaeab2d83e3a9 -r e:\textos
+
+            Busca pela seqüência hex f0 e0 ae ae ab 2d 83 e3 a9
+            em arquivos comprimidos rar no diretório e:\textos.
+
+
+    k       Fechar arquivo. Qualquer comando cuja intenção seja modificar
+            o arquivo  será ignorado.
+
+            Exemplo:
+
+            rar k final.rar
+
+
+    l[t]    Apresenta os conteúdos do arquivo [técnico]. Os arquivos são
+            apresentados como no comando 'v' à exceção do caminho dos
+            arquivos. Exemplo: apenas o nome do arquivo é apresentado.
+            Informações técnicas opcionais são exibidas quando o
+            modificador 't' é utilizado.
+
+
+    m[f]    Mover para o arquivo [apenas arquivos]. Ao mover arquivos e
+            diretórios irá resultar numa eliminação dos arquivos e
+            diretórios após uma operação de compressão bem sucedida.
+            Os diretórios não serão removidos se o modificador 'f' for
+            utilizado e/ou o comando adicional '-ed' for aplicado.
+
+
+    p       Imprime o arquivo na saída.
+
+
+    r       Repara um arquivo. A reparação de arquivos é efetuada em dois
+            estágios.
+
+            Primeiro, o arquivo danificado é analisado em busca da
+            recuperação de dados (ver o comando 'rr'). Se o arquivo contiver 
+            recuperação de dados e se a porção dos dados danificados é contínua 
+            e inferior a N*512 bytes, onde N é o número de setores de recuperação 
+            colocados no arquivo, as hipóteses de uma reconstrução bem sucedida 
+            do arquivo são elevadas. Quando esse estágio terminar, um novo arquivo
+            será criado, chamado rebuilt.arcname.rar.
+
+            Se um arquivo danificado não contém recuperação de dados ou se o
+            arquivo não foi completamente recuperado devidos a danos severos,
+            um segundo estágio é efetuado. Durante esse estágio apenas a
+            estrutura do arquivo é reconstruída e é impossível de recuperar
+            arquivos que falhem a validação de CRC, mas é ainda possível
+            recuperar arquivos não-danificados que estavam inacessíveis
+            devido à estrutura corrupta do arquivo. Na maior parte dos casos
+            isto só é útil para arquivos não-sólidos.
+
+            Quando o segundo estágio é concluído, o arquivo reconstruído será
+            guardado como rebuilt.arcname.rar.
+
+            Enquanto a recuperação está em progresso, o RAR poderá pedir a
+            assistência do usuário quando um arquivo suspeito é detectado.
+
+                      Entrada suspeita
+
+              Nome:  <nome possível>
+              Tamanho:  <tamanho>    Comprimido: <tamanho comprimido>
+
+                      Adicioná-la: Sim/Não/Todas
+
+            Responda 'y' para adicionar esta entrada ao arquivo rebuilt.arcname.rar.
+
+            Exemplo:
+
+            rar r buggy.rar
+
+
+    rn      Renomear arquivos comprimidos.
+
+            A sintaxe de comando é:
+
+            rar rn <nomedoarquivo> <srcname1> <destname1> ... <srcnameN>
+                   <destnameN>
+
+            Por exemplo, o seguinte comando:
+
+            rar rn dados.rar leiame.txt leiame.bak info.txt info.bak
+
+            renomeará leiame.txt para leiame.bak e info.txt para info.bak
+            no arquivo dados.rar.
+
+            É permitido usar caracteres especiais em nomes de origem e destino
+            para simples tranformações de nomes mudando extensões de arquivos.
+            Por exemplo:
+
+            rar rn dados.rar *.txt *.bak
+
+            irá renomear todos os arquivos *.txt para *.bak.
+
+            O RAR não verifica se o nome do arquivo de destino já está
+            presente no arquivo comprimido, então você precisa ser cuidadoso
+            para evitar nomes duplicados. É especialmente importante quando
+            você usa caracteres especiais. Este comando é potencialmente perigoso,
+            porque um caractere errado pode corromper todos os nomes arquivados.
+
+
+    rr[N]   Adicionar recuperação de dados. Opcionalmente, informações
+            redundantes (recuperação de dados) poderão ser adicionadas a
+            um arquivo. Isto irá resultar num pequeno aumento de tamanho
+            no arquivo e ajuda para recuperar arquivos comprimidos no caso
+            de uma falha no disquete ou perdas de dados de qualquer gênero.
+            A recuperação de dados pode conter até 32678 setores de
+            recuperação. O número de setores poderá ser especificado
+            diretamente no comando 'rr' (N = 1, 2 .. 8) ou se não for
+            especificado pelo usuário será selecionado automaticamente
+            de acordo com o tamanho do arquivo: um tamanho das
+            informações de recuperação serão sobre 1% do tamanho total do
+            arquivo, normalmente permitindo a recuperação de até 0.6% do
+            total do tamanho do arquivo de dados danificado.
+
+            É também possível especificar o tamanho do registro de
+            recuperação em %porcentos para o tamanho do arquivo. Somente
+            acrescente o caractere por cento para o parâmetro de comando.
+            Por exemplo:
+
+            rar rr3% nome_do_arquivo
+
+            Se os dados estão danificados de forma contínua então cada
+            setor-rr ajuda a recuperar 512 bytes de informação danificada.
+            Esse valor poderá ser inferior no caso de danos múltiplos.
+
+            O tamanho da recuperação de dados poderá ser aproximadamente
+            determinado pela seguinte fórmula <tamanho do arquivo>/256 +
+            <número de setores de recuperação>*512 bytes.
+
+
+    rv[N]   Cria recuperação de volumes (arquivos .rev), que pode ser mais
+            tarde usado para reconstruir arquivos perdidos em um volume. Este
+            comando é sensível somente para compressão em multi-volumes e você
+            precisa especificar o nome do primeiro volume nas configurações
+            como o nome do arquivo. Por exemplo:
+
+            winrar rv3 dados.part01.rar
+
+            Esta característica pode ser útil em cópias de segurança ou,
+            por exemplo, quando você postar um arquivo multivolume para um
+            grupo de notícias e uma parte de assinantes não recebeer alguns
+            dos arquivos. Reenviar volumes recuperados em vez de volumes habituais
+            pode reduzir o número total de arquivos para reenvio.
+
+            Cada volume de recuperação pode reconstruir um volume RAR perdido
+            ou danificado. Por exemplo, se você tiver 30 volumes e 3 volumes
+            de recuperação, você pode reconstruir um dos 3 volumes perdidos.
+            Se o número de arquivos .rev for menor que o número de volumes
+            perdidos, reconstruir será impossível. O número total de volumes
+            habituais e recuperados não deve exceder 255.
+
+            Volumes originais RAR não deve ser modificado depois de criar
+            volumes de recuperação. O algoritmo de recuperação usa dados
+            armazenados em arquivos REV e em volumes RAR para reconstruir
+            volumes RAR perdidos. Então se você modificar volumes RAR,
+            por exemplo, feche eles, depois de criar arquivos REV, senão
+            o processo de recuperação falhará.
+
+            O parâmetro opcional <N> especifica um número de recuperação de
+            volumes para criar e deve ser menor que o número total dos volumes
+            RAR configurado. Você pode acrescentar também um caractere por
+            cento (%) para este parâmetro, neste caso o número de arquivos
+            .rev criados serão iguais a esta porcentagem tirada do número total
+            dos volumes RAR. Por exemplo:
+
+            winrar rv15% dados.part01.rar
+
+            O RAR reconstrói volumes perdidos e danificados ao usar o comando
+            'rc' ou automaticamente, se ele não localizar o próximo volume e
+            localiza o número exigido de arquivos .rev ao descomprimir.
+
+            As cópias originais de volumes danificados são renomeados para
+            *.bad antes de reconstrução. Por exemplo, nomedovolume.part03.rar
+            será renomeado para nomedovolume.part03.rar.bad.
+
+
+    s[nome] Converter um arquivo para SFX. O arquivo é embebido num módulo-SFX
+            (utilizando o módulo do arquivo default.sfx ou especificado no
+            comando adicional).
+            Na versão para Windows, default.sfx deverá ser colocado no mesmo
+            diretório do rar.exe, no Unix e BeOS - no diretório do usuário,
+            em /usr/lib ou /usr/local/lib.
+
+    s-      Remove o módulo SFX do arquivo SFX já existente. O
+            RAR cria um novo arquivo sem o módulo SFX, o arquivo original
+            SFX não é excluído.
+
+    t       Testar arquivos comprimidos. Este comando efetua uma extração
+            virtual, ao não salvar nada no fluxo de saída, para validar
+            o(s) arquivo(s) especificado(s).
+
+            Exemplos:
+
+            Testar os arquivos no diretório atual:
+
+            rar t *
+
+            ou para Unix:
+
+            rar t '*'
+
+            O usuário poderá testar arquivo em todas os sub-diretórios,
+            contidos no caminho atual:
+
+            rar t -r *
+
+            ou para Unix:
+
+            rar t -r '*'
+
+
+    u       Atualizar arquivos no arquivo. Adiciona os arquivos não existente
+            no arquivo e atualiza os arquivos modificados desde a sua
+            compressão para o arquivo.
+
+
+    v[t,b]  Apresenta detalhadamente os conteúdos do arquivo [técnico].
+            Os arquivos são apresentados utilizando o formato: caminho completo,
+            comentário do arquivo, tamanho original e comprimido, taxa de
+            compressão, data e hora da última atualização, atributos, CRC,
+            método de compressão e versão mínima requerida do RAR para a
+            extração. Informações técnicas opcionais serão apresentadas quando
+            o modificador 't' for utilizado.
+
+            Para apresentar os conteúdos de todos os volumes do arquivo,
+            utilize um asterisco
+            ('*') em vez da extensão do arquivo ou utilize o comando
+            adicional '-v'.
+
+            Exemplo:
+
+            1) lista o conteúdo do arquivo system.rar (modo técnico)
+               e redireciona para o arquivo techlist.lst
+
+               rar vt system >techlist.lst
+
+            2) lista o conteúdo do arquivo tutorial.rar (modo de nomes de
+               arquivo bare)
+
+               rar vb tutorial
+
+
+    x       Extrair arquivos com o caminho completo.
+
+            Exemplo:
+
+            rar x -av- -c- dime 10cents.txt
+
+            extrai o arquivo especificado para o caminho atual. A VA e os
+            comentários foram desativados.
+
+
+            Comandos adicionais (utilizados em conjunto com um comando):
+
+
+    -?      Apresenta ajuda nos comandos e comandos adicionais. O mesmo
+            acontece quando nenhuma opção ou uma opção inválida é inserida
+            na linha de comandos.
+
+
+    --      Suspende a detecção de comandos adicionais
+
+            Este comando adicional indica ao RAR que não existem mais comandos
+            adicionais na linha de comandos. Poderá ser útil, se o arquivo ou o
+            nome do arquivo começa pelo caractere '-'. Sem o comando adicional
+            '--' tal nome seria tratado como um comando adicional.
+
+            Exemplo:
+
+            adiciona todos os arquivos do diretório atual para o arquivo sólido
+            '-StrangeName'
+
+            RAR a -s -- -StrangeName
+
+    -ac     Limpar atributo Arquivo após compressão ou extração
+            (apenas na versão para Windows).
+
+
+    -ag[formato]
+            Gera um nome de arquivo utilizando a data e hora atual.
+
+            Adiciona o texto da data atual para o nome de um arquivo
+            quando cria um arquivo. Útil para cópias de segurança diárias.
+
+            O formato do texto adicionado é definido pelo parâmetro opcional
+            "formato" ou "YYYYMMDDHHMMSS" se o parâmetro estiver ausente.
+            O formato do texto poderá incluir os seguintes caracteres:
+
+            Y   - ano
+            M   - mês
+            MMM - nome do mês como texto (Jan, Fev, etc.)
+            W   - um número da semana (uma semana começa com a Segunda-feira)
+            A   - um número do dia atual da semana
+            D   - dia do mês
+            E	- dia do ano
+            H   - horas
+            M   - minutos (tratados como minutos se encontrados após horas)
+            S   - segundos
+            N   - número de arquivos. O RAR procura por arquivos já existentes
+                  com um nome gerado e se encontra-o, incrementa o número do
+                  arquivo até gerar um nome sem igual. O formato do caractere 'N'
+                  não é suportado ao criar volumes.
+
+            Cada um dos caracteres do formato das seqüências listados acima 
+            representam somente um caractere adicionado para o nome de arquivo. 
+            Por exemplo, use WW para dois dígitos no número da semana ou YYYY 
+            para definir os quatro dígitos do ano.
+
+            Se o primeiro caractere no formato da string for '+', posições
+            da string da data e nome base do arquivo será mudado, assim a
+            data precede o nome do arquivo.
+
+            O formato da string deve conter, adicionado ao texto os caracteres
+            '{' e '}'. Este texto é inserido dentro do nome do arquivo.
+
+            Todos outros caracteres são adicionados para um nome de arquivo
+            sem alterações.
+
+            Se você precisar atualizar um arquivo comprimido já existente,
+            seja cuidadoso com o comando adicional -ag. Dependendo do formato
+            da string e do tempo desde o uso anterior que o comando adicional -ag
+            gerou os nomes de arquivos existentes serão danificados. Neste 
+            caso o RAR criará um novo arquivo comprimido em vez de atualizar
+            o já existente.
+
+
+            Exemplos:
+
+            1) utilize o formato padrão YYYYMMDDHHMMSS
+
+               rar a -ag backup
+
+            2) utilize o formato DD-MMM-YY
+
+               rar a -agDD-MMM-YY backup
+
+            3) utilize o formato YYYYMMDDHHMM
+
+               rar a -agYYYYMMDDHHMM backup
+
+            4) utilize o formato YYYY-WW-A, incluindo a descrição de campos
+
+               rar a -agYYYY{year}-WW{week}-A{wday} backup
+
+            5) utilize YYYYMMDD e o número do arquivo. Isto permite gerar
+               nomes únicos até quando o formato de máscara YYYYMMDD for usado
+               mais que uma vez no dia
+
+               rar a -agYYYYMMDD-NN backup
+
+
+   -ai      Ignorar atributos do arquivo.
+
+            Se este comando adicional for usado ao extrair, o RAR não guarda
+            os atributos geral do arquivo armazenados na compressáo para extrair
+            arquivos.
+
+            Este comando preserva os atributos atribuídos pelo sistema operacional
+            para um arquivo recentemente criado.
+
+            No Windows são afetados os atributos arquivo, sistema, oculto e
+            omente-leitura. No Unix - usuário, grupo, e outras permissões do arquivo.
+
+
+   -ao      Adicionar arquivos com o atributo Arquivo
+            (apenas nas versões para Windows).
+
+            Exemplo:
+
+            adiciona todos os arquivos do disco C: com o atributo Arquivo
+            para 'f:backup' e limpa o atributo Arquivo
+
+            rar a -r -ac -ao f:backup c:\*.*
+
+
+    -ap     Coloca o caminho dentro do arquivo. Esse caminho é embebido nos
+            nomes dos arquivos quando adiciona esses arquivos para o arquivo,
+            e é removido dos nomes dos arquivos na extração.
+
+            Por exemplo, se desejar adicionar o arquivo 'readme.txt'
+            para o diretório 'DOCS\ENG' do arquivo 'release',
+            poderá executar:
+
+            rar a -apDOCS\ENG release readme.txt
+
+            ou para extrair 'ENG' para o diretório atual:
+
+            rar x -apDOCS release DOCS\ENG\*.*
+
+
+    -as     Sincronizar os conteúdos do arquivo
+
+            Se este comando adicional for utilizado durante a compressão,
+            os arquivos arquivados que não estão presentes na lista dos
+            arquivos atualmente adicionados, serão eliminados do arquivo.
+            É conveniente utilizar este comando adicional em combinação
+            com -u (atualizar) para sincronizar os conteúdos de um
+            arquivo e uma diretório de compressão.
+
+            Por exemplo, após o comando:
+
+            rar a -u -as backup sources\*.cpp
+
+            o arquivo 'backup.rar' irá apenas conter arquivos *.cpp do
+            diretório 'sources', e todos os outros arquivos serão eliminados
+            do arquivo. É semelhante à criação de um novo arquivo, mas com uma
+            exceção importante: se nenhuns arquivos foram modificados desde
+            a última cópia de segurança, a operação é efetuada muito mais
+            rapidamente do que a criação de um novo arquivo.
+
+
+    -av     Colocar verificação de autenticidade (apenas nas versões registradas).
+            O RAR irá colocar, em cada arquivo novo e atualizado, informações
+            acerca do criador, a hora da última atualização e nome do arquivo.
+
+            Se um arquivo, contendo informação de autenticidade, está sendo
+            modificado e este comando adicional não foi especificado, a
+            informação de verificação de autenticidade será removida.
+
+            Durante a extração, teste, apresentação ou atualização e compressão
+            com o comando adicional '-av', o RAR irá efetuar uma validação
+            da integridade e mostra a seguinte mensagem:
+
+            Informação de verificação de autenticidade ...
+
+            No caso de uma verificação de autenticidade bem sucedida, a mensagem
+            'Ok', o nome do criador e a informação da última atualização serão
+            apresentadas. No caso de uma falha na verificação de autenticidade, a
+            mensagem 'FALHA' será mostrada.
+
+            Para ativar a função da verificação de Autenticidade, o programa
+            TERÁ que estar registrado. Contate o seu site de distribuição
+            local ou o centro de distribuição mundial.
+
+            Para que a característica de verificação de autenticidade seja habilitada,
+            o programa deve ser registrado. Por favor contacte seu revendedor para
+            local de distribuição ou o centro de distribuição pelo mundo inteiro.
+
+
+    -av-    Desativar a verificação ou adição da VA.
+
+
+    -cfg-   Ignora configurações do arquivo e variáveis do ambiente RAR.
+
+
+    -cl     Converter os nomes do arquivos para minúsculas.
+
+
+    -cu     Converter os nomes do arquivos para maiúsculas.
+
+
+    -c-     Desativar a apresentação de comentários.
+
+
+    -df     Eliminar arquivos após a compressão
+
+            Mover arquivos para o arquivo. Este comando adicional combinado
+            com o comando "A" efetua as mesma ação do que o comando "M".
+           
+
+    -dh     Abrir arquivos partilhados
+
+            Permite o processamento de arquivos abertos por outras aplicações
+            para escrita.
+
+            Esta opção poderá ser perigosa, porque permite a compressão de
+            um arquivo, que ao mesmo tempo é modificado por outra
+            aplicação, por isso utilize com cuidado.
+
+
+    -dr     Excluir arquivos para a lixeira
+
+            Excluir arquivos após compressão e colocá-los na Lixeira.
+            Disponível somente para a versão em Windows.
+
+
+    -ds     Não organizar arquivos enquanto os adiciona para um arquivo sólido.
+
+
+    -dw     Reduzir arquivos após compressão
+
+            Excluir arquivos após a compressão. Antes de excluir os dados do arquivo
+            eles sáo substituídos por zero bytes para previnir a recuperação dos
+            arquivos excluídos.
+
+
+    -ed     Não adicionar diretórios vazios
+
+            Este comando indica que estes registros de diretório não serão
+            armazenados no arquivo criado. Ao extrair tal arquivo, o
+            RAR cria diretórios não vazios baseando nas partes do conteúdo
+            dos arquivos. As informações sobre diretórios vazios são
+            perdidas. Todos os atributos de diretórios não vazios exceto
+            um nome (direito de acesso, fluxos, etc.) serão perdidos
+            também, então use este comando somente se você não precisar
+            preservar tais informações.
+
+            Se -ed for usado com o comando m ou o comando adicional -df,
+            o WinRAR não removerá pastas vazias.
+
+
+    -ee     Não processar atributos estendido
+
+            Impossibilita salvar e restaurar atributos extendidos dos arquivos.
+            Apenas nas versões para OS/2 e BeOS.
+
+
+    -ep     Excluir caminhos dos nomes. Este comando adicional permite que
+            os arquivos sejam adicionados para um arquivo sem incluir
+            informações do caminho. Isto pode, com certeza, resultar na
+            existência de múltiplos arquivos existentes no arquivo, com o
+            mesmo nome.
+
+
+    -ep1    Excluir diretório base dos nomes. Não salvar o caminho fornecido na
+            linha de comandos.
+
+            Exemplo:
+
+            todos os arquivos e diretórios do diretório tmp serão adicionados
+            ao arquivo 'pasta', mas o caminho não incluirá 'tmp\'
+
+            rar a -ep1 -r pasta 'tmp\*'
+
+            Isto é equivalente aos comandos:
+
+            cd tmp
+            rar a -r pasta
+            cd ..
+
+
+    -ep2    Expande um caminho completo. Caminho de armazenamento completo 
+            (exceto uma letra de drive e condutor separador de caminho) 
+            quando comprimindo.
+    
+
+    -ep3    Expande um caminho completo incluindo a letra do drive.
+            Somente na versão Win32.
+
+            Este comando armazena o caminho completo do arquivo incluindo a
+            letra do drive se usado na compressão. Separadores de drive
+            (dois pontos) são substituídos por caracteres sublinhados.
+
+            Se você usar o comando -ep3 ap extrair, isto mudará o sublinhado
+            voltando para dois pontos e cria arquivos descomprimidos em
+            seus diretórios e discos originais. Se usuário também
+            especificou um caminho de destino, ele será ignorado.
+
+            Este comando pode ajudar para cópia de segurança de vários discos
+            para o mesmo arquivo. Por exemplo, você deve executar:
+
+            rar a -ep3 -r backup.rar c:\ d:\ e:\
+
+            para criar um backup e:
+
+            rar x -ep3 backup.rar
+
+            para restaurá-lo.
+
+            Mas seja cauteloso e use o comando -ep3 somente se estiver certo
+            de estar extraindo arquivos que não contenham quaisquer arquivos
+            maliciosos. Em outras palavras, use isto se você mesmo criou um
+            arquivo ou tem confiança completa em seu autor. Iste comando permite
+            substituir qualquer arquivo em qualquer local de seu computador
+            inclusive arquivos importantes de sistema e deve ser normalmente
+            usado somente com o propósito de cópia de segurança e restauração.
+
+
+
+    -e[+]<attr>
+            Especifica a máscara para exclusão de arquivos.
+
+            <atr> é um número no formato decimal, otal (com '0' no início)
+            ou hexadecimal (com '0x' no início).
+
+            Por padrão, sem o sinal '+' antes de <attr>, este comando adicional
+            define a máscara de exclusão. Então se resultado de bitwise AND entre
+            <attr> e atributos do arquivo não zerados, o arquivo não será
+            processado.
+
+            Se o sinal '+' estiver presente, especifica a máscara incluída.
+            Somente os arquivos que tenham pelo menos um atributo especificado
+            na máscara serão processados.
+
+            Na versão para Windows é também possível utilizar em vez dos
+            símbolos de máscara digital D, S, H, A e R para denotar
+            diretórios e arquivos com atributos de sistema, escondidos,
+            arquivo e apenas de leitura. A ordem na qual os atributos são
+            fornecidos não é significante.
+
+            É permitido especificar -e<attr> e -e+<attr>
+            na mesma linha de comandos.
+
+            Exemplos:
+
+            1) arquivar somente nomes de diretório sem o seu conteúdo
+
+               rar a -r -e+d diretórios
+
+            2) não comprimir arquivos de sistema e ocultos:
+
+               rar a -esh arquivos
+
+            3) não extrair arquivos somente leitura:
+
+               rar x -er arquivos
+
+
+    -f      Renovar arquivos. Poderá ser utilizado nas extração ou criação de
+            arquivos. O texto do comando "a -f" é equivalente ao comando 'f',
+            poderá utilizar também os comandos '-f' com os comandos 'm' ou
+            'mf'. Se o comando adicional '-f' for utilizado com os comandos
+            'x' ou 'e', então apenas os arquivos antigos serão substituídos
+            com novas versões extraídas do arquivo.
+
+
+    -hp[p]  Codificar dados e cabeçalhos de arquivos.
+
+            Este comando adicional é similar ao -p[p], mas o adicional 
+            -p codifica somente dados de arquivo e deixa outras informações 
+            como nomes de arquivo visíveis. Este comando adicional codifica 
+            todas as áreas sensíveis do arquivo inc;uindo dados, nomes de 
+            arquivo, tamanhos, atributos, comentários e outros blocos, então 
+            ele fornece um nível de segurança mais alto. Sem uma senha é 
+            impossível visualizar uma lista de arquivos em arquivos 
+            codificados com -hp.
+
+            Exemplo:
+
+            rar a -hpfGzq5yKw secreto relatório.txt
+
+            adicionar o arquivo relatório.txt para o arquivo codificado
+            secreto.rar usando a senha 'fGzq5yKw'
+
+
+    -id[c,d,p,q]
+            O comando adicional -idc desativa a string de copyright.
+
+            O comando adicional -idd desativa a string "Done" ao final da operação.
+
+            O comando adicional -idp desativa o indicador de porcentagem.
+
+            O comando adicional -idq ativa o modo silencioso, então somente 
+            mensagens de erros e perguntas serão exibidas.
+
+            É permitido usar vários modificadores de uma vez,
+            então o comando adicional -idcdp está correto.
+
+
+    -ieml[.][endereço]
+            Enviar arquivo por e-mail. Somente versão Win32.
+
+            Anexa um arquivo criado ou atualizado usando o comando 
+            para adicioná-lo a uma mensagem de e-mail. Você precisa 
+            ter o cliente de e-mail compatível com a interfaca MAPI 
+            para usar este comando adicional (a maioria dos programas 
+            de e-mails modernos suportam a interface MAPI). 
+
+            Você pode digitar um endereço de e-mail diretamente no 
+            comando adicional ou deixar em branco. Neste caso 
+            posteriormente ele será perguntado por seu programa de 
+            e-mail. É possível especificar vários endereços separados 
+            com vírgulas ou ponto-e-vírgulas. 
+
+            Se você acrescentar um caractere de ponto (.) para -ieml, 
+            um arquivo será excluído após ser anexado com sucesso para 
+            o e-mail. Se o comando adicional é usado ao criar um arquivo 
+            multi-volume, todo volume é anexado à mensagem de e-mail 
+            separadamente.
+
+
+    -ierr   Enviar todas as mensagens para a saída de erros.
+
+
+    -ilog[name]
+            Registrar erros para o arquivo (apenas nas versões registradas).
+
+            Mensagens de erro de gravação para o arquivo rar.log são 
+            criadas no diretório do RAR. É possível especificar outro 
+            nome de arquivo de registros (log) em vez do padrão rar.log 
+            no comandoadicional, por exemplo, -ilogc:\log\backup.log. 
+            Se o nome especificado não incluir o caminho, o arquivo de 
+            registros (log) será criado usando os seguintes padrões:
+
+            Unix:    arquivo .rarlog no diretório principal do usuário;
+            Windows: arquivo rar.log no diretório %APPDATA%\WinRAR;
+            DOS:     arquivo rar.log no mesmo diretório que o rar32.exe.
+
+
+    -inul   Desativar todas as mensagens.
+
+
+    -ioff   Desliga o computador após completar a operação. O hardware deve
+            suportar a característica de desligamento automático. somente em
+            versões Win32.
+
+
+    -isnd   Ativar sons.
+
+
+    -k      Bloquear arquivo. Qualquer comando que pretende alterar o arquivo
+            será ignorado.
+
+
+    -kb     Manter arquivos extraídos danificados.
+
+            O RAR, por padrão, elimina os arquivos com erros de CRC após a
+            extração. O comando adicional -kb especifica os arquivos com erros
+            de CRC que deverão ser eliminados.
+
+
+    -m<n>   Selecionar o método de compressão:
+
+       -m0   armazenar não comprime o arquivo durante a adição ao arquivo
+       -m1   veloz     utilizar o método de compressão mais rápido (menos
+                       compressão)
+       -m2   rápido    utilizar o método de compressão rápido
+       -m3   normal    utilizar o método de compressão normal (por padrão)
+       -m4   bom       utilizar o método de compressão bom (mais compressão,
+                       porém mais lento)
+       -m5   ótimo     utilizar o melhor método de compressão (ligeiramente mais
+                       compacto, mas mais lento)
+
+            Por padrão o RAR utiliza o método -m3 (compressão Normal).
+
+
+    -md<n>  Selecionar o tamanho do dicionário <n> em KB. Terá que ser 64,
+            128, 256, 512 ou 1024 ou as letras 'a', 'b', 'c', 'd' ou 'e'
+            respectivamente.
+
+            O dicionário deslizante é uma área especial de memória utilizada
+            pelo algoritmo de compressão. Se o tamanho do arquivo a ser
+            comprimido (ou o total de arquivos em caso de um arquivo sólido)
+            é superior ao tamanho do dicionário, então ao aumentar o
+            dicionário irá geralmente aumentar a taxa de compressão,
+            diminuir a velocidade e aumentar os requisitos de memória.
+
+            O dicionário deslizante nas versões de 32-bit do RAR é 256 KB.
+            Nas versões do RAR para Unix, Windows e outras plataformas de 32-bit
+            é possível selecionar cinco diferentes tamanhos: 64, 128, 256, 512
+            ou 1024 KB. Além disso, a velocidade da extração nessas versões não
+            depende do tamanho do dicionário. Nas versões de 16-bit do RAR para
+            DOS o dicionário deslizante é fixo e igual a 64 KB.
+
+            Embora o RAR para DOS forneça a extração de arquivos a partir de
+            arquivos com grandes dicionários.
+
+            A quantidade de memória requerida para criar arquivos com
+            grandes dicionários é determinada como 5*<tamanho do
+            dicionário>+2560KB. Cerca de 1 MB é requerido para a extração
+            e 5*<tamanho do dicionário>+3584KB para atualizar arquivos sólidos.
+
+            O RAR para DOS pode extrair a partir de arquivos com grandes
+            dicionários utilizando memória convencional, EMS ou memória
+            virtual. Se não existir EMS ou "cache" de disco, a operação
+            poderá ficar mais lenta. O RAR para DOS não converte arquivos
+            com um grande dicionário para SFX com o módulo SFX por padrão
+            e não consegue atualizar tais arquivos sólidos.
+
+            Exemplo:
+
+            RAR a -s -mdd sources *.asm
+                ou
+            RAR a -s -md512 sources *.asm
+
+            Irá criar um arquivo sólido utilizando um dicionário de 512 KB.
+
+
+    -ms[list] Especifica os tipos dos arquivos para armazenar.
+
+              Especifique tipos dos arquivos, que será armazenado sem compressão.
+              Este comando adicional pode ser usado para armazenar arquivos
+              já comprimidos, que ajuda a aumentar notavelmente a velocidade
+              de compressão sem perda na relação de compressão.
+
+              O parâmetro opcional <lista> define a lista de extensões dos arquivos
+              separados por pontos-e-vírgulas. Por exemplo, -msrar;zip;jpg forçará
+              o RAR a armazenar sem compressão todos os arquivos RAR e ZIP e
+              imagens JPG. É também permitido especificar caracteres especiais
+              para máscaras de arquivo na lista, então -ms*.rar;*.zip;*.jpg
+              funcionarão também.
+
+              Se <lista> não for especificado, o comando adicional -ms usará o
+              conjunto de extensões padrão, que inclui os seguintes tipos de
+              arquivos:
+
+              7z, ace, arj, bz2, cab, gz, jpeg, jpg, lha, lzh, mp3,
+              rar, taz, tgz, z, zip
+
+
+    -mm[f]  Compressão multimídia [forçar]. Ativa um algoritmo especial de
+            compressão multimídia. É indicado para comprimir dados de áudio
+            digital contendo até quatro canais de 8-bit ou dois de 16-bit.
+            Também trabalha bem com imagens de 24-bit. As melhorias na taxa
+            de compressão poderão atingir os 30% em relação à compressão
+            normal.
+
+            Quando comprime arquivos no modo multimídia, o RAR efetua uma
+            análise inteligente dos dados e poderá utilizar, para diferentes
+            partes do arquivo, a compressão geral ou multimídia dependendo
+            da mais conveniente. Esta análise permite um desempenho otimizado
+            quando diferentes tipos de dados estão embebidos no mesmo arquivo.
+            O modificador 'f' força a compressão multimídia para ser
+            utilizada no arquivo inteiro; poderá ajudar quando certos tipos
+            de arquivos multimídia vão ser comprimidos, mas na maioria dos
+            casos irá apenas aumentar o tamanho do arquivo.
+
+            Ambos os comandos adicionais -m<N> "Selecionar método de
+            compressão" e -s "Criar arquivo sólido" poderão ser utilizados
+            com a compressão multimídia, mas só terão efeito nas partes dos
+            arquivos onde o algoritmo de compressão geral é aplicável.
+
+            Se -mm for utilizado com dados não-multimídia, a taxa de
+            compressão é inalterada em comparação com o método geral, mas
+            devido ao atraso da análise multimídia, a velocidade de
+            compressão é sempre mais lenta. A utilização de -mm não é
+            recomendável com arquivos normais.
+
+            Exemplo:
+
+            rar a -m5 -s -mm Todas_As_Minhas_Canções.rar *.wav
+
+            Utiliza o melhor método de compressão, compressão sólida e compressão
+            multimídia com análise inteligente, que serão aplicados nos dados
+            adequados.
+
+
+    -mt<cabeçalho>   O parâmetro <cabeçalho> pode têr valores de 0 a 16. Define
+                     o número recomendado do cabeçalho ativo para algoritmo de
+                     compressão. Se ele for maior que 0, o WinRAR usará a versão
+                     multi-cabeçalho do algoritmo de compressão fornecendo
+                     velocidade mais alta em arquiteturas multiprocessadoras.
+                     O número real de cabeçalhos ativos pode diferir do
+                     especificado.
+
+                     Se o parâmetro <cabeçalho> for zero, o WinRAR usará um único
+                     cabeçalho do algoritmo de compressão.
+
+                     A alteração do parâmetro <cabeçalho> afeta significamente a
+                     proporção da compressão, então arquivos criados com o
+                     comando adicional -mt não serão exatamente os mesmos ainda
+                     que todas as outras configurações de compressão sejam iguais.
+
+                     Se o comando adicional -mt não for especificado, o WinRAR
+                     tentará descobrir o número de processadores disponíveis e
+                     selecionará automaticamente o número favorável de cabeçalhos.
+
+
+    -n<f>   Inclui somente o arquivo especificado <f>. Caraceres especiais podem
+            ser usados nas partes do nome do arquivo e de máscara de arquivo.
+            Você pode especificar o comando adicional '-n' várias vezes.
+
+            Este comando adicinoal não substitui máscaras de arquivo habituais,
+            que necessitam ser digitados na linha de comando. É um adicional
+            o filtro limitando o processamento de arquivos somente para
+            comparação incluindo máscara especificada no comando adicional -n.
+            Pode ajudar, às vezes, reduzir o comprimento da linha de comandos.
+
+            Por exemplo, se você precisar comprimir todos os arquivos *.txt e *.lst
+            em diretórios Projeto e Info, você pode digitar:
+
+            rar a -r text Projeto\*.txt Projeto\*.lst Info\*.txt Info\*.lst
+
+            ou usando o comando adicional -n:
+
+            rar a -r -n*.txt -n*.lst text Projeto Info
+
+
+    -n@<lf> Inclui arquivos usando uma lista de arquivo especificado.
+
+            É similar ao comando adicional -n<f>, porém lê máscaras incluídas
+            de um arquivo da lista de arquivos. Se você usar -n@ sem o parâmetro
+            do nome de arquivo de lista, lerá nomes de arquivo padrão.
+
+            Exemplo:
+
+            rar a -r -n@inclist.txt text Projeto Info
+
+
+    -oc     Configurar atributos de Compressão NTFS. Somente versão Win32.
+
+            Este comando permite restaurar o atributo de Compressão NTFS
+            na extração de arquivos. O RAR salva atributos de Compressão
+            do arquivo quando cria-se um arquivo, porém não restaura esses
+            atributos a menos que o comando adicional -oc seja especificado.
+
+
+    -ol     Manter ligações simbólicas como ligação em vez de arquivo.
+            Apenas nas versões para Unix e BeOS.
+
+
+    -or     Renomeia automaticamente arquivos extraídos ao existir um arquivo
+            com o mesmo nome. O arquivo renomeado receberá o nome de
+            'nomedoarquivo(N).txt', onde 'nomedoarquivo.txt' é o nome original
+            do arquivo e 'N' é um número a partir de 1 e incrementado
+            se o arquivo existir.
+
+
+    -os     Salvar fluxos NTFS. Somente na versão Win32.
+
+            Este comando adicional tem significado somente para sistemas de
+            arquivo NTFS e permite salvar fluxos de dados
+            alternativos associado com um arquivo. É especialmente importante
+            no Windows 2000, XP e versões mais novas do Windows que usa fluxos 
+            para manter algum arquivo dependente de informações como descrições 
+            do arquivo. Se você usar o RAR para cópia de segurança de seus 
+            discos NTFS, é recomendado especificar este comando adicional.
+
+
+    -ow     Use este comando adicional quando arquivando para salvar informações de 
+            segurança do arquivo e quando extraindo para restaurá-lo.
+
+            Versões RAR Unix e BeOS salvam arquivos individuais e grupos
+            quando usa este comando adicional.
+
+            Versões Win32 armazenam individualmente, grupo, permissões de arquivo e
+            informações de auditoria, mas somente se você tiver privilégios 
+            necessários para ler eles. Nota que somente sistema de arquivos NTFS
+            suporta segurança de arquivo baseada no Windows.
+
+    -o[+|-] Configurar o método de substituição. você pode usar para extrair
+            e atualizar arquivos comprimidos. Os seguintes métodos estão disponíveis:
+
+              -o           Perguntar para substituir
+                           (padrão para a extração de arquivos);
+
+              -o+          Substituir tudo
+                           (padrão para a atualização de arquivos existentes);
+
+              -o-          Ignorar arquivos existentes.
+
+
+    -p<p>   Codificar arquivos com texto <p> como senha durante a compressão.
+            A senha é sensível. Se omitir a senha na linha de comandos, a
+            sua assistência será requerida com a mensagem "Inserir senha".
+
+
+            Exemplo:
+
+            rar a -pmeudoce segredo1 *.txt
+
+            adiciona os arquivos *.txt e codifica-os com a senha "meudoce".
+
+
+    -p-     Não pedir senha
+
+
+    -r      Recorrer a subdiretórios. Poderá ser utilizado com os comandos:
+            a, u, f, m, x, e, t, p, v, l, c, cf & s.
+
+            Quando utilizado com os comandos 'a', 'u', 'f', 'm' irá processar
+            os arquivos em todos os sub-diretórios bem como o diretório atual.
+
+            Quando utilizado com os comandos x, e, t, p, v, l, c, cf ou s irá
+            processar todos os arquivos em sub-diretórios bem como a pasta de
+            trabalho atual.
+
+
+    -r-     Desativar recursão.
+
+            Até sem o comando adicional -r o RAR pode habilitar a recursão
+            automaticamente em algumas situações. Este comando -r- proíbe isto.
+
+            Se você especificar um nome de diretório ao comprimir e se o tal 
+            nome não inclui qualquer caractere chave, por padrão o RAR adiciona
+            o conteúdo do diretório ainda que o comando -r não seja especificado.
+            Também o RAR habilita automaticamente a recursão se o disco raiz
+            sem caracteres chave for especificado como uma máscara de arquivo.
+            O interruptor -r- impossibilita tal comportamento. 
+            
+            Por exemplo:
+            
+            rar a -r- arc dirname
+            
+            o comando adicionará somento o diretório vazio 'dirname' e ignorar 
+            seu conteúdo. Comando a seguir:
+            
+            rar a -r- arc c:\
+            
+            comprimirá somente o conteúdo raiz do diretório c: e 
+            não fornece recursão em subdiretórios.
+
+    -r0     Semelhante a -r, mas quando é utilizado com os comandos 'a', 'u',
+            'f', 'm' irá recorrer a subdiretórios apenas para nomes, que
+            incluam os caracteres incógnitos '*' e '?'
+
+
+    -ri<p>[:<s>]
+            Este comando adicional regula o sistema de carregamento do 
+            RAR. Prioridade de tarefa possível <p> os valores são 0 - 15.
+
+            Se <p> for 0, o RAR usa a prioridade de tarefa padrão. 
+            <p> igual a 1 fixa a prioridade possível mais baixa, 
+            15 - o mais alto possível.
+
+            Tempo de espera <s> é um valor de 0 a 1000 (milisegundos). 
+            Este é um período de tempo que o RAR retorna ao sistema 
+            depois de toda a operação de leitura ou gravação ao se 
+            comprimir ou extrair. Um valor que não seja zero <s> pode 
+            ser útil se você precisar reduzir o sistema de carregamento 
+            mais do que pode ser alcançado com o parâmetro <p>.
+
+            Exemplo:
+
+            execute o RAR com a prioridade padrão e 10 ms para o tempo de espera:
+
+            RAR a -ri0:10 backup *.*
+
+
+    -rr[N]  Adicionar a recuperação de dados. Este comando adicional é
+            utilizado quando cria ou modifica um arquivo para adicionar a
+            recuperação de dados ao arquivo. Veja a descrição do comando
+            'rr[N]' para mais detalhes.
+
+
+    -s      Criar arquivo sólido. O sólido é um tipo especial de arquivo.
+            Leia o capítulo "Glossário" para mais informações.
+
+            Exemplo:
+
+            criar arquivo sólido sources.rar com um dicionário de 512 KB,
+            recorrendo a todos os diretórios, iniciando no diretório atual.
+            Adicionar apenas os arquivos .asm:
+
+            rar a -s -md512 sources.rar *.asm -r
+
+
+    -s<N>   Criar grupos sólidos utilizando o número de arquivos
+
+            Semelhante a -s, mas limpa as estatísticas sólidas após a compressão
+            de <N> arquivos. Geralmente diminui a compressão, mas também diminui
+            as perdas no caso de danos em arquivos sólidos.
+
+
+    -SC<caracteres>[objetos]"
+            Especifica o grupo de caracteres 
+
+            Este comando adicional permite especificar o grupo de caracteres 
+            para a lista de arquivos e comentários de arquivos comprimidos. 
+
+            O parâmetro 'Caracteres' é obrigatório e deve ter um dos 
+            seguintes valores: 
+
+              U  Unicode 
+              A  Codificação ANSI (Windows) 
+              O  Codificação OEM (DOS) 
+
+            Arquivos no formato Unicode deve ter os caracteres Unicode FFFE ou FEFF 
+            no início, caso contrário o WinRAR ignorará este comando adicional 
+            processará o arquivo como texto ASCII. 
+
+            O parâmetro 'Objetos' é opcional e pode ter um dos seguintes valores: 
+
+              L  Lista de arquivos 
+              C  Comentários de arquivos 
+
+            É permitido especificar mais de um objeto, por exemplo, -scolc. 
+            Se o parâmetro 'objetos' for omitido, o parâmetro 'caracteres' 
+            será aplicado para todos os objetos. 
+
+            Este comando adicional permite especificar o conjunto de caracteres 
+            para arquivos no comando adicional -z<arquivo>, lista de arquivos e 
+            comentários de arquivos gravados pelo comando cw. 
+
+
+            Exemplos:
+
+            1) Ler nomes contidos na 'lista' usando codificação OEM: 
+
+            WinRAR a a -scol data @list 
+
+            2) Ler comentario.txt como um arquivo Unicode: 
+
+            WinRAR c -scuc -zcomment.txt data 
+
+            3) Gravar comentario.txt como um arquivo Unicode: 
+
+            WinRAR cw -scuc data comment.txt 
+
+
+    -sv     Criar volumes sólidos independentes
+
+
+    -sv-    Criar volumes sólidos dependentes
+
+            Semelhante a -s, mas compartilha estatística sólida no meio de
+            volumes. Ignorado, se usado para criar arquivo que não seja em
+            volume.
+
+            Por padrão o RAR tenta zerar a estatística como sólida logo
+            que possível ao iniciar um novo volume e este comando adicional
+            anula tal comportamento. Aumenta Ligeiramente a compressão,
+            mas reduz significativamente o risco de extrair uma parte de dados
+            se um dos volumes sólidos em volume agrupados forem perdidos ou
+            danificados.
+
+
+    -se     Criar grupos sólidos utilizando a extensão
+
+            Semelhante a -s, mas limpa as estatísticas sólidas se a extensão
+            do arquivo for alterada. Geralmente diminui a compressão, mas
+            também diminui as perdas dos danos dos arquivos.
+
+
+    -sl<tamanho>   Processa somente os arquivos, que tamanho é menor que o especificado
+                   no parâmetro <tamanho> deste comando adicional.
+                   O parâmetro <tamanho> deve ser especificado em bytes.
+
+
+    -sm<tamanho>   Processa somente os arquivos, que tamanho é maior que o especificado
+                   no parâmetro <tamanho> deste comando adicional.
+                   O parâmetro <tamanho> deve ser especificado em bytes.
+
+
+    -s-     Desativar a compressão sólida
+
+
+    -sfx[nome]
+            Criar arquivos SFX. Se este comando adicional for utilizado quando
+            cria um novo arquivo, um arquivo Auto-Extraível (utilizando o
+            módulo no arquivo default.sfx ou especificado no comando adicional)
+            será criado. Na versão para Windows, default.sfx deverá ser
+            colocado no mesmo diretório do rar.exe, no Unix e BeOS - no
+            diretório do usuário.
+
+            Exemplo:
+
+            rar a -sfxwincon.sfx minhainst
+
+            criar um arquivo Auto-Extraível (SFX) utilizando o módulo-SFX
+            wincon.sfx e o módulo SFX.
+
+
+    -si[nome]
+            Ler dados do padrão de entrada (stdin), ao criar um
+            arquivo. O parâmetro opcional 'nome' permite especificar
+            o nome do arquivo de dados comprimidos stdin nos arquivos
+            criados. Se este parâmetro for omitido, o nome será
+            configurado para 'stdin'.
+
+            Exemplo:
+
+            digitando type Tree.Far | rar a -stTree.Far tree.rar
+
+            comprimirá o arquivo de saída 'type Tree.Far' como 'Tree.Far'.
+
+            Este comando não pode ser usado com -v.
+
+
+    -tk     Guardar a data original do arquivo. Previne que o RAR modifique a
+            data do arquivo quando altera um arquivo.
+
+
+    -tl     Colocar a hora no arquivo do último arquivo. Força o RAR a colocar
+            a data de um arquivo alterado para a data do último arquivo no
+            arquivo.
+
+
+    -tn<horário>
+            Processa arquivo mais novo que o período de tempo especificado. 
+            O formato desta seqüência é:
+
+            [<ndias>d][<nhoras>h][<nminutos>m][<nsegundos>s]
+
+            Por exemplo, use a seqüência -tn15d para processar arquivos mais 
+            novos que 15 dias e -tn2h30m para processar arquivos mais novos 
+            que 2 horas e 30 minutos.
+
+
+    -to<horário>
+            Processa arquivos mais velhos que o período de tempo especificado. 
+            O formato desta seqüência é a mesma que -tn<horário>.
+
+
+    -ts<m,c,a>[N]
+            O comando adicional -tsm instrui o WinRAR a salvar o horário de
+            modificação do arquivo, -tsc - horário de criação e tsa - último
+            horário de acesso. O parâmetro opcional depois do comando adicional
+            é o número entre 0 e 4 controlando a precisão de horário do arquivo.
+            O valor '1' ativa 1 segundo preciso, 2 - 0.0065536 seg, 3 -
+            0.0000256 e 4 ou '+' habilita o máximo de precisão de horário do
+            NTFS, que é igual a 0.0000001 seg. O value '0' ou '-' significa
+            que aquela criação e o horário de acesso não são armazenados
+            abaixo de (dois segundos) que é usado para horário de modificação.
+            Os modos de alta precisão adicionam mais dados para arquivar, até
+            19 bytes adicionais por arquivo no caso das combinações -tsm4
+            -tsa4 -tsc4. Se nenhuma precisão for especificada, o WinRAR usa
+            o valor '4' (alto).
+
+            O modo padrão do WinRAR é -tsm4 -tsc0 -tsa0, então o tempo de
+            modificação é armazenado com a precisão alta e outros horários
+            são ignorados.
+
+            É necessário especificar os comandos adicionais -tsc e -tsa para
+            configurar a criação e horário de acesso ao descomprimir arquivos
+            (a precisão é irrelevante, mas não deve ser 0). Por padrão o WinRAR
+            fixa somente o horário de modificação, ainda que o arquivo contém
+            a criação e último horário de acesso. A configuração do horário de
+            modificação para descomprimir arquivos podem ser também inválidados
+            com -tsm-.
+
+            É possível omitir o tipo do horário da carta se você precisar
+            aplicar o comando adicional para todos os três horários. Por exemplo,
+            -tsm4 -tsa4 -tsc4 pode ser substituído por -ts4, -ts+ ou -ts. Use
+            -ts- para salvar somente o horário de modificação de precisão baixa
+            ou para ignorar todos três horários do arquivo em diante
+            descomprimido.
+
+            Ao criar um arquivo, o WinRAR reduz automaticamente a precisão se o
+            modo alto não for suportado pelo arquivo de sistema. Não é mais que
+            2 segundos em FAT e 1 segundo em Unix. A precisão de horário em NTFS
+            é 0.0000001 segundo.
+
+            Sistemas operacionais limita que o horário pode ser configurado na
+            descompressão. O Windows permite deixar todos os três horários, Unix
+            - modificação e último acesso, mas não criação, DOS suporta somente
+            o horário de modificação.
+
+
+            Exemplos:
+
+            1) Armazena todos os horários com a possibilidade de alta precisão:
+
+            winrar a -ts backup
+
+            2) Restaura a modificação e o último horário de acesso. O comando
+            adicional -tsm não é exigido, porque o WinRAR usa-o por padrão:
+
+            winrar x -tsa backup
+
+            3) Armazena modificação em baixa precisão e horário de criação.
+            Sem o comando adicional -tsm1 o WinRAR salvaria o horário com alta
+            precisão.
+
+            winrar a -tsm1 -tsc1 backup
+
+
+    -u      Atualizar arquivos. Poderá ser utilizado na extração de arquivos
+            ou criação. O texto do comando "a -u" é equivalente ao comando
+            'u', poderá também utilizar o comando adicional '-u' com os
+            comandos 'm' ou 'mf'. Se o comando adicional '-u' é utilizado
+            com os comandos 'x' ou 'e', então os arquivos não presentes no
+            disco e os arquivos mais novos que as suas cópias no disco, serão
+            extraídos do arquivo.
+
+
+    -v      Cria volumes com auto-detecção de tamanho ou lista todos os volumes
+
+            Este comando adicional pode ser usado ao criar ou listar volumes.
+
+            No primeiro caso habilita autodetecção de tamanho de volume,  
+            volumes novos usarão todo o espaço disponível na mídia de destino.
+            É conveniente ao criar volumes em discos removíveis. Você pode ver  
+            mais sobre volumes digitando - v <tamanho> descrição.
+
+            No segundo caso, quando esta opção é usado junto com o comando 
+            'V' ou 'L', forçando o RAR a listar conteúdos de todos os volumes  
+            a partir dos especificados na linha de comando.Sem esta opção o  
+            RAR exibe somente conteúdos do volume especificado.  
+
+
+    -v<n>[k|b|f|m|M|g|G]
+            Criar volumes com o tamanho=<tamanho>*1000 [*1024 | *1].
+            Por padrão este comando adicional utiliza o <tamanho> como milhares
+            (1000) de bytes (não 1024 x bytes). Você poderá também inserir o tamanho
+            em kilobytes utilizando o símbolo 'k', megabytes utilizando o
+            símbolo 'b', - 'm', millions of bytes - 'M', gigabytes - 'g',
+            billions (milliards) of bytes - 'G' ou selecionando um de vários
+            valores pré-definidos utilizando o símbolo 'f' seguido do valor
+            numérico. Os valores pré-definidos poderão ser 360, 720, 1200,
+            1440 ou 2880 e substituídos com o valor correspondente à disquete.
+
+            Se o tamanho for omitido, a autodetecção será utilizada.
+
+            Você pode especificar vários comandos adicionais com -v para
+            configurar tamanhos diferentes para volumes diferentes.
+            Por exemplo:
+
+              rar a -v100k -v200k -v300k nome-do-arquivo
+
+            Se os volumes são criados na mesma unidade dos arquivos temporários
+            (a pasta atual por padrão, mas poderá ser alterado com o comando
+            adicional '-w'), o tamanho auto-detectado torna-se sem significado.
+            Neste caso o tamanho do volume terá que ser explicitamente definido.
+
+            Se os volumes forem criados numa unidade DIFERENTE da unidade que
+            contém os arquivos temporários, então depois da criação do
+            primeiro volume, a assistência do usuário será requisitada com:
+
+              Criar próximo volume: Sim/Não/Todos/Sair
+
+            Neste momento, deverá alterar os discos. Ao responder 'T' irá
+            causar que todos os volumes sejam criados sem uma pausa.
+
+            O primeiro volume num conjunto multi-volume tem a extensão .RAR,
+            e os volumes seguintes são numerados de .R00 a .R99.
+
+            Quando extrai ou testa um arquivo multi-volume terá que utilizar
+            apenas o primeiro nome do volume (*.RAR). Se não existe volume
+            seguinte na unidade e o disco é removível, o usuário será
+            confrontado com:
+
+               Inserir o disco com <nome do próximo volume>
+
+            Insira o disco com o volume correto e pressione qualquer tecla.
+
+            Se durante a extração, o volume seguinte não for encontrado e os
+            volumes estão colocados num disco não-amovível, o RAR irá abortar
+            com a seguinte mensagem de erro:
+
+             Não foi possível encontrar <nome do volume>
+
+            Os volumes do arquivo não poderão ser modificados. Os comandos 'd',
+            'f', 'u', 's' não poderão ser utilizados com conjuntos
+            Multi-volume. O comando 'a' poderá ser apenas utilizado para a
+            criação de uma nova seqüência multi-volume.
+
+            É possível, embora improvável, que o tamanho do arquivo, de um
+            arquivo num conjunto multi-volume, possa ser superior ao seu
+            tamanho descomprimido. Isso deve-se ao fato que 'armazenar' (sem
+            compressão se o tamanho aumentar) não pode ser ativada para
+            conjuntos multi-volume.
+
+            Os volumes de arquivo poderão ser Auto-Extraíveis (SFX). Este
+            arquivo deverá ser criado utilizando ambos os comandos
+            adicionais '-v' e '-sfx'.
+
+            Exemplo:
+
+            criar arquivo em volumes de tamanho fixo:
+
+            rar a -s -v1440 discoarq.rar *.*
+
+            irá criar volumes sólidos com o tamanho de 1440000 bytes.
+
+
+    -vd     Exclui o conteúdo do disco antes de criar um volume
+
+            Todos os arquivos e diretórios no disco de destino serão excluídos
+            quando '-vd' for usado.  O comando adicional somente é aplicado 
+            para mídias removíveis, dados do disco rígido não podem ser excluídos 
+            usando este comando adicional.
+
+    -ver[n] Força o WinRAR a manter versões de arquivo anteriores ao 
+            atualizar arquivos nos já existentes arquivos. Versões 
+            antigas são renomeadas para 'nomedoarquivo;n', onde 'n' 
+            é o número da versão. Somente disponível para o formato 
+            RAR.
+
+            Como padrão, ao descomprimir um arquivo sem o comando 
+            adicional -ver, o WinRAR extrai somente a última versão 
+            do arquivo adicionada, quando o nome não inclui um 
+            sufixo numérico. Mas se você especificar exatamente um 
+            nome de arquivo, inclusive uma versão, ele será também 
+            descomprimido. Por exemplo, 'rar x arcname' serão 
+            descomprimidos somente as últimas versões, quando 
+            'rar x arcname file.txt;5' serão descomprimidos 
+            'file.txt;5', se ele estiver presente no arquivo.
+
+            Se você especificar o comando adicional -ver sem um 
+            parâmetro ao descomprimir, o WinRAR extrairá todas as 
+            versões de todos os arquivos combinados com a máscara 
+            do arquivo digitada. Neste caso um número de versão não 
+            será removido dos nomes dos arquivos descomprimidos. 
+            Você pode extrair também uma versão de arquivo 
+            especificando seu número com o parâmetro -ver. Dirá 
+            ao WinRAR para descomprimir somente esta versão e remove 
+            o número da versão dos nomes de arquivo. Por exemplo, 
+            'rar x -ver5 arcname' serão descomprimidos somente 5 
+            versões do arquivo.
+
+
+    -vn     Como padrão os volumes RAR tem nomes preferidos 
+            'volname.partNNN.rar', onde NNN é o número do volume. 
+            Usando o comando adicional -vn é possível trocar para 
+            outro, a extensão baseada no esquema de nomes, onde o 
+            primeiro arquivo de volume em um multi-volume tem a 
+            extensão .rar, os volumes seguintes são numerados de 
+            .r00 até .r99. Pode se ter a sensação, se você for 
+            descomprimir um arquivo sobre o MS-DOS, que não permite 
+            mais de um ponto em um nome de arquivo.
+
+
+    -vp     Pausa antes de cada volume
+
+            Por padrão o RAR pede confirmação antes de criar ou 
+            descompactar um próximo volume somente para drives removíveis.
+            Esta seqüência força o RAR a sempre fazer tal confirmação.
+            Isto pode ser útil se o espaço do disco é limitado e você deseja
+            copiar cada volume para outros meios logo depois da criação.
+
+    -w<p>   Colocar o diretório de trabalho como <p>. Este comando adicional
+            poderá ser utilizado para colocar o diretório para arquivos
+            temporários.
+
+
+    -x<f>   Excluir o arquivo especificado <f>, incógnitas poderão ser
+            utilizadas. Você poderá especificar o comando adicional '-x' várias
+            vezes:
+
+            Se a máscara contém combinações de caracteres especiais, eles 
+            serão aplicados para a pasta atual e seus subdiretórios. Eles não 
+            são recursivos sem estes caracteres, então se você desejar excluir 
+            algum "nome de arquivo" em todas as pastas, você precisará 
+            especificar duas máscaras: "nome do arquivo" para a pasta atual 
+            e "*\nome do arquivo" para subpastas. Se você souber um caminho 
+            exato para um arquivo, você pode usar a sintaxe 
+            "caminho\nome do arquivo" para excluir somente esta cópia de 
+            "nome do arquivo". Se você usar a sintaxe -xcaminho\nome do 
+            arquivo quando descomprimir um arquivo, "caminho" deve ser um 
+            caminho dentro de um arquivo comprimido, não um caminho no disco 
+            após a descompressão.
+
+            Exemplos:
+
+            1) rar a -r -x*.bak -x*.rar rawfiles
+
+            *.bak e *.rar os arquivos não serão adicionados para rawfiles
+
+            2) rar a -r -x*\temp -x*\temp\* savec c:\*
+
+            comprimi todos os arquivos no disco c: exceto diretórios de arquivos
+            temporários e arquivos dentro de diretórios temporários
+
+            3) rar x -x*.txt docs
+
+            extrai todos os arquivos exceto *.txt de docs.rar
+
+
+    -x@<lf> Excluir arquivos listados em uma lista de arquivos especificada.
+
+            Exemplo:
+
+            rar a -x@exlist.txt arqu *.exe
+
+
+    -y      Assumir Sim em todas as questões.
+
+
+    -z[f]   Ler o comentário do arquivo a partir do arquivo <f>. Use com o
+            comando adicional -sc se você precisar especificar um grupo de 
+            caracteres para um comentário de um arquivo de texto. Se <f> 
+            não for especificado, o comentário será lido de stdin.
+
+
+ Limitações
+ ~~~~~~~~~~
+
+    O nome do caminho é limitado em 259 símbolos.
+
+    O tamanho máximo do comentário do arquivo é 62000 bytes.
+
+    Limitações dos comandos:
+
+    Os comandos 'd','u','f','c','cf' não operam com volumes.
+
+    O comando 'a' não pode ser utilizado para atualizar um volume de arquivo,
+    apenas para criar um.
+
+
+ Valores de saída
+ ~~~~~~~~~~~~~~~~
+
+    O RAR sai com um código zero (0) no caso de uma operação bem sucedida. O
+    código de saída diferente de zero significa que a operação foi cancelada
+    devido a um erro:
+
+     255   INTERROMPIDO PELO USUÁRIO	O usuário parou o processo
+
+       8   ERRO DE MEMÓRIA		Memória insuficiente para a operação
+
+       7   ERRO DO USUÁRIO		Erro na opção da linha de comandos
+
+       6   ERRO DE ABERTURA		Erro na abertura do arquivo
+
+       5   ERRO DE GRAVAÇÃO		Erro de gravação no disco
+
+       4   ARQUIVO FECHADO		Tentativa de modificar um arquivo
+                                        previamente fechado pelo comando 'k'
+
+       3   ERRO DE CRC                  Um erro de CRC ocorreu durante a
+                                        descompressão
+
+       2   ERRO FATAL                   Ocorreu um erro fatal
+
+       1   AVISO                        Ocorreram erros não fatais
+
+       0   SUCESSO                      Operação bem sucedida (Saída do usuário)
+
+
+ Glossário
+ ~~~~~~~~~
+
+    Arquivo      arquivo especial contendo um ou mais arquivos opcionalmente
+                 comprimidos e/ou encriptados.
+
+    Compressão   Um método de codificação de dados para reduzir o seu tamanho.
+
+    CRC          Cyclic Redundancy Check. Método matemático para o cálculo de
+                 informação especial para a validade dos dados.
+
+    SFX          Módulo de arquivo utilizado para extrair arquivos quando
+                 executado. (Módulo Auto-Extraível), geralmente na forma de
+                 um arquivo .EXE.
+
+    Sólido       Um arquivo comprimido utilizando um método especial de
+                 compressão que processa todos os arquivos de uma forma
+                 contínua. Particularmente vantajoso quando comprime um
+                 grande número de pequenos arquivos.
+
+    Volume       Parte de um arquivo dividido. Ao dividir um arquivo em
+                 volumes permite guardá-los em disquetes. Volumes sólidos
+                 deverão ser extraídos a partir da primeira seqüência.
+
+
+
+Todos os Direitos Reservados
+
+(c) 1993-2007 Alexander Roshal
+
