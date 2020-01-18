@@ -1,0 +1,24 @@
+-- Usuário
+CREATE ROLE agrom LOGIN
+ENCRYPTED PASSWORD 'md5b8e62387ecd9a0eff57f314cf8f3a148'
+NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;
+
+-- Banco de Dados
+CREATE DATABASE agromanager
+  WITH ENCODING='UTF8'
+       OWNER=agrom
+       CONNECTION LIMIT=-1
+       TABLESPACE=pg_default;
+
+
+
+-- DROP DATABASE diego_agrom;
+
+CREATE DATABASE diego_agrom
+  WITH OWNER = postgres
+       ENCODING = 'UTF8'
+       TABLESPACE = pg_default
+       LC_COLLATE = 'pt_BR.utf8'
+       LC_CTYPE = 'pt_BR.utf8'
+       CONNECTION LIMIT = -1
+       template=template0;

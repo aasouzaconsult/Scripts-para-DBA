@@ -1,0 +1,157 @@
+-----------------
+- Editar com vi -
+-----------------
+Inserir uma linha: 
+i
+<enter>
+escrever o que necessário
+<esc>
+:wq (Salva e Sai)
+
+Restartar o Postgres...
+/etc/init.d/postgresql restart 
+
+-------------------------------------------------------------------------------------------------------
+DEIXAR O POSTGRES ACESSIVEL PELO PGADMIN
+-------------------------------------------------------------------------------------------------------
+-- CAMINHO
+cd /var/lib/pgsql/9.1/data/
+
+-- ARQUIVOS
+vi pg_hba.conf
+			 	TYPE	DATABASE	USER	CIDR-ADDRESS	METHOD
+	- Adicionado a linha :  host   	all   		all   	192.168.0.0/24	password
+                                host    all             all     192.168.48.0/24 password 
+
+vi postgresql.conf
+	- Alterado a linha de .: Listen_Addresses = '127.0.0.0/32:5432'   -- Somente Local
+			   para: Listen_Addresses = '*' 		  -- Visivel na rede
+
+-- REINICIAR O SERVIÇO
+/etc/init.d/postgresql-9.1 restart
+-------------------------------------------------------------------------------------------------------
+
+
+-- Acessar (Putty):
+IP: 10.251.0.3
+root
+2f8irq12
+
+Versão do linux: openSUSE 11.3 "Teal"  (cat /etc/issue)
+Versão do Postgres: 8.4.5 (psql --version)
+
+GR5     (Banco do Juridico)
+
+###########################################
+#  Acessando via pgAdmin III  - RGSYNPSQL #
+###########################################
+PostgreSQL (10.251.0.100) - RGSYNPSQL
+Login no LINUX:root
+senha no LINUX:2f8irq12
+
+Login: postgres
+senha: 2f8irq12
+
+Login: openfire
+senha: 2f8irq12
+
+Login: agrom
+senha: agrom
+
+###################################
+#  Acessando via pgAdmin III  GR5 #
+###################################
+http://10.251.0.3/apl/gr5/gr5
+
+PostgreSQL (10.251.0.3)
+Login: admgr5
+Senha: r3g1n@ AdmGr5
+
+PostgreSQL (192.168.0.210 - PC3072)
+Login: postgres
+Senha: 123456
+
+Fazer com que o pgAdmin (192.168.0.210) veja o PostgreSQL (10.251.0.3)
+
+/var/lib/pgsql/data/postgresql.conf
+	- Alterado a linha de .: Listen_Addresses = '127.0.0.0/32:5432'   -- Somente Local
+			   para: Listen_Addresses = '*' 		  -- Visivel na rede
+
+/var/lib/pgsql/data/pg_hba.conf
+			 	TYPE	DATABASE	USER	CIDR-ADDRESS	METHOD
+	- Adicionado a linha :  host   	all   		all   	192.168.0.0/24	md5
+
+
+#############################################
+#  Acessando via pgAdmin III  - AGROMANAGER #
+#############################################
+PostgreSQL (10.251.0.100) - RGSYNPSQL
+Login no LINUX:root
+senha no LINUX:2f8irq12
+
+Login: postgres
+Senha: 2f8irq12
+
+
+#############################################
+#  Acessando via pgAdmin III  - HOMOLOGAÇÃO#
+#############################################
+PostgreSQL (10.223.0.6) - PGSQL-HOMOLO
+Login no LINUX:root
+senha no LINUX:2f8irq12
+
+Login: postgres
+Senha: 2f8irq12
+
+-----------------------
+-- Comandos POSTGRES --
+-----------------------
+psql -l		(Verifica se existe o Postgres e quais os bancos de dados)
+psql GR5  	(Acessar o banco)
+
+\d		(Listar objetos do banco de dados)
+\q		(sair do Postgres)
+
+
+-- Backup do Banco de Dados
+-- Caminho onde esta sendo salvo: /home/gr5
+pg_dump gr5 -Fc -b -v > Backup_RG5_DATA.dmp
+
+-- Backup de Objetos do Banco de Dados
+pg_dump gr5 -v -t regiao --inserts > backup_regiao.sql
+
+
+-- Agendamentos
+crontab -l 	(Lista o que tem agendado)
+crontab -e 	(Abre modo de edição)
+
+--------------------
+-- Comandos LINUX --
+--------------------
+ls -laht 	(Completo e em KB)
+ls --help 	(ver as opções)
+df -h 		(Espaço em Disco)
+du -h		(Espaço diretórios)
+
+-- Pesquisas
+grep gr5 
+history | grep gr5	
+egrep
+find / -name nome*
+
+----------------
+-- Desempenho --
+----------------
+top 		(Gerenciador de Tarefas)
+ps faux		(Arvore de Processos)
+
+-- rede
+traceroute -n <IP>
+
+--edição de arquivo:
+vi <arquivo>
+
+######################
+# Instalar no Ubuntu #
+######################
+sudo apt-get install postgresql

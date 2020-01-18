@@ -1,0 +1,381 @@
+[mondrian@localhost ~]$ su -
+Senha:
+[root@localhost ~]# 
+[root@localhost ~]# 
+[root@localhost ~]# 
+[root@localhost ~]# /etc/init.d/postgresql-9.0 status
+ (pid  2798) está rodando...
+[root@localhost ~]# su - postgres
+-bash-3.2$ psql
+psql (9.0.4)
+Digite "help" para ajuda.
+
+postgres=# 
+postgres=# select 'teste'
+postgres-# ;
+ ?column? 
+----------
+ teste
+(1 registro)
+
+postgres=# select 'teste' as Nome;
+ nome  
+-------
+ teste
+(1 registro)
+
+postgres=# create table tbteste (
+postgres(# cdteste int
+postgres(# , nmteste varchar(12));
+CREATE TABLE
+postgres=# 
+postgres=# 
+postgres=# 
+postgres=# select * from Tbteste
+postgres-# ;
+ cdteste | nmteste 
+---------+---------
+(0 registro)
+
+postgres=# select * from Tbteste;
+ cdteste | nmteste 
+---------+---------
+(0 registro)
+
+postgres=# 
+postgres=# 
+postgres=# 
+postgres=# insert into tbteste values (1, 'teste');
+INSERT 0 1
+postgres=# select * from TbTeste;
+ cdteste | nmteste 
+---------+---------
+       1 | teste
+(1 registro)
+
+postgres=# insert into tbteste values (2, 'teste2'), (3, 'teste3');
+INSERT 0 2
+postgres=# select * from TbTeste;
+ cdteste | nmteste 
+---------+---------
+       1 | teste
+       2 | teste2
+       3 | teste3
+(3 registros)
+
+postgres=# select now();
+              now              
+-------------------------------
+ 2011-09-24 09:19:50.153262-03
+(1 registro)
+
+postgres=# select * from TbTeste;
+ cdteste | nmteste 
+---------+---------
+       1 | teste
+       2 | teste2
+       3 | teste3
+(3 registros)
+
+postgres=# update tbteste set cdteste = 4 where cdteste = 3;
+UPDATE 1
+postgres=# \l
+                               Lista dos bancos de dados
+   Nome    |   Dono   | Codificação |  Collation  |    Ctype    | Privilégios de
+ acesso 
+-----------+----------+-------------+-------------+-------------+---------------
+--------
+ postgres  | postgres | UTF8        | pt_BR.UTF-8 | pt_BR.UTF-8 | 
+ template0 | postgres | UTF8        | pt_BR.UTF-8 | pt_BR.UTF-8 | =c/postgres   
+       +
+           |          |             |             |             | postgres=CTc/p
+ostgres
+ template1 | postgres | UTF8        | pt_BR.UTF-8 | pt_BR.UTF-8 | =c/postgres   
+       +
+           |          |             |             |             | postgres=CTc/p
+ostgres
+(3 registros)
+
+postgres=# 
+
+###########################################################################################
+
+[mondrian@localhost ~]$ su -
+Senha:
+[root@localhost ~]# yum search pgadmin
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: centos.secrel.com.br
+ * extras: mirrors.igsobe.com
+ * updates: centos.secrel.com.br
+Excluding Packages from CentOS-5 - Base
+Finished
+Excluding Packages from CentOS-5 - Updates
+Finished
+=============================== Matched: pgadmin ===============================
+pgadmin3_90.i386 : Graphical client for PostgreSQL
+pgadmin3_90-debuginfo.i386 : Debug information for package pgadmin3_90
+pgadmin3_90-docs.i386 : Documentation for pgAdmin3
+phpPgAdmin.noarch : Web-based PostgreSQL administration
+[root@localhost ~]# yum install pgadmin3
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: centos.secrel.com.br
+ * extras: mirrors.igsobe.com
+ * updates: centos.secrel.com.br
+Excluding Packages from CentOS-5 - Base
+Finished
+Excluding Packages from CentOS-5 - Updates
+Finished
+Setting up Install Process
+No package pgadmin3 available.
+Nothing to do
+[root@localhost ~]# yum install pgadmin3_90
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: centos.secrel.com.br
+ * extras: mirrors.igsobe.com
+ * updates: centos.secrel.com.br
+Excluding Packages from CentOS-5 - Base
+Finished
+Excluding Packages from CentOS-5 - Updates
+Finished
+Setting up Install Process
+Resolving Dependencies
+--> Running transaction check
+---> Package pgadmin3_90.i386 0:1.12.3-1.rhel5 set to be updated
+--> Processing Dependency: libwx_gtk2u_core-2.8.so.0 for package: pgadmin3_90
+--> Processing Dependency: libwx_baseu-2.8.so.0(WXU_2.8.5) for package: pgadmin3_90
+--> Processing Dependency: libwx_gtk2u_aui-2.8.so.0(WXU_2.8) for package: pgadmin3_90
+--> Processing Dependency: libwx_gtk2u_richtext-2.8.so.0 for package: pgadmin3_90
+--> Processing Dependency: libwx_gtk2u_ogl-2.8.so.0(WXU_2.8) for package: pgadmin3_90
+--> Processing Dependency: libwx_gtk2u_adv-2.8.so.0(WXU_2.8) for package: pgadmin3_90
+--> Processing Dependency: libwx_gtk2u_stc-2.8.so.0 for package: pgadmin3_90
+--> Processing Dependency: libwx_baseu_xml-2.8.so.0(WXU_2.8) for package: pgadmin3_90
+--> Processing Dependency: libwx_gtk2u_stc-2.8.so.0(WXU_2.8) for package: pgadmin3_90
+--> Processing Dependency: libwx_gtk2u_aui-2.8.so.0 for package: pgadmin3_90
+--> Processing Dependency: libwx_baseu-2.8.so.0(WXU_2.8) for package: pgadmin3_90
+--> Processing Dependency: libwx_baseu_net-2.8.so.0(WXU_2.8) for package: pgadmin3_90
+--> Processing Dependency: libwx_gtk2u_ogl-2.8.so.0 for package: pgadmin3_90
+--> Processing Dependency: libwx_gtk2u_core-2.8.so.0(WXU_2.8) for package: pgadmin3_90
+--> Processing Dependency: wxGTK for package: pgadmin3_90
+--> Processing Dependency: libwx_gtk2u_xrc-2.8.so.0 for package: pgadmin3_90
+--> Processing Dependency: libwx_baseu-2.8.so.0 for package: pgadmin3_90
+--> Processing Dependency: libwx_baseu_xml-2.8.so.0 for package: pgadmin3_90
+--> Processing Dependency: libwx_gtk2u_xrc-2.8.so.0(WXU_2.8) for package: pgadmin3_90
+--> Processing Dependency: libwx_gtk2u_qa-2.8.so.0 for package: pgadmin3_90
+--> Processing Dependency: libwx_gtk2u_adv-2.8.so.0 for package: pgadmin3_90
+--> Processing Dependency: libwx_gtk2u_html-2.8.so.0 for package: pgadmin3_90
+--> Processing Dependency: libwx_baseu_net-2.8.so.0 for package: pgadmin3_90
+--> Processing Dependency: libwx_gtk2u_html-2.8.so.0(WXU_2.8) for package: pgadmin3_90
+--> Finished Dependency Resolution
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_gtk2u_xrc-2.8.so.0(WXU_2.8) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_gtk2u_ogl-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_gtk2u_ogl-2.8.so.0(WXU_2.8) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_gtk2u_adv-2.8.so.0(WXU_2.8) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_gtk2u_xrc-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_gtk2u_stc-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_gtk2u_richtext-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_gtk2u_qa-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_baseu_xml-2.8.so.0(WXU_2.8) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_baseu_xml-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_baseu-2.8.so.0(WXU_2.8) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_gtk2u_adv-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_gtk2u_aui-2.8.so.0(WXU_2.8) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_baseu-2.8.so.0(WXU_2.8.5) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_gtk2u_stc-2.8.so.0(WXU_2.8) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_gtk2u_core-2.8.so.0(WXU_2.8) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_gtk2u_html-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_gtk2u_aui-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: wxGTK is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_baseu_net-2.8.so.0(WXU_2.8) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_baseu-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_baseu_net-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_gtk2u_html-2.8.so.0(WXU_2.8) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+pgadmin3_90-1.12.3-1.rhel5.i386 from pgdg90 has depsolving problems
+  --> Missing Dependency: libwx_gtk2u_core-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_gtk2u_aui-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_baseu_net-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_baseu-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_gtk2u_html-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_baseu_net-2.8.so.0(WXU_2.8) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_gtk2u_qa-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_baseu_xml-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_gtk2u_ogl-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_baseu-2.8.so.0(WXU_2.8) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_gtk2u_stc-2.8.so.0(WXU_2.8) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_gtk2u_core-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_gtk2u_html-2.8.so.0(WXU_2.8) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_gtk2u_richtext-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_gtk2u_xrc-2.8.so.0(WXU_2.8) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_gtk2u_ogl-2.8.so.0(WXU_2.8) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_gtk2u_xrc-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: wxGTK is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_gtk2u_stc-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_baseu_xml-2.8.so.0(WXU_2.8) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_gtk2u_aui-2.8.so.0(WXU_2.8) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_gtk2u_adv-2.8.so.0 is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_gtk2u_adv-2.8.so.0(WXU_2.8) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_baseu-2.8.so.0(WXU_2.8.5) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+Error: Missing Dependency: libwx_gtk2u_core-2.8.so.0(WXU_2.8) is needed by package pgadmin3_90-1.12.3-1.rhel5.i386 (pgdg90)
+ You could try using --skip-broken to work around the problem
+ You could try running: package-cleanup --problems
+                        package-cleanup --dupes
+                        rpm -Va --nofiles --nodigest
+The program package-cleanup is found in the yum-utils package.
+[root@localhost ~]# rpm -ivh /etc/wxGTK-2.8.10-1.el5.rf.i386.rpm
+erro: falha ao abrir /etc/wxGTK-2.8.10-1.el5.rf.i386.rpm: Arquivo ou diretório não encontrado
+[root@localhost ~]# rpm -ivh /tmp/wxGTK-2.8.10-1.el5.rf.i386.rpm
+aviso: /tmp/wxGTK-2.8.10-1.el5.rf.i386.rpm: Cabeçalho V3 assinatura DSA: NOKEY, key ID 6b8d79e6
+Preparando...               ########################################### [100%]
+   1:wxGTK                  ########################################### [100%]
+[root@localhost ~]# yum search pgadmin
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: centos.secrel.com.br
+ * extras: mirrors.igsobe.com
+ * updates: centos.secrel.com.br
+Excluding Packages from CentOS-5 - Base
+Finished
+Excluding Packages from CentOS-5 - Updates
+Finished
+=============================== Matched: pgadmin ===============================
+pgadmin3_90.i386 : Graphical client for PostgreSQL
+pgadmin3_90-debuginfo.i386 : Debug information for package pgadmin3_90
+pgadmin3_90-docs.i386 : Documentation for pgAdmin3
+phpPgAdmin.noarch : Web-based PostgreSQL administration
+[root@localhost ~]# yum install pgadmin3_90
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: centos.secrel.com.br
+ * extras: mirrors.igsobe.com
+ * updates: centos.secrel.com.br
+Excluding Packages from CentOS-5 - Base
+Finished
+Excluding Packages from CentOS-5 - Updates
+Finished
+Setting up Install Process
+Resolving Dependencies
+--> Running transaction check
+---> Package pgadmin3_90.i386 0:1.12.3-1.rhel5 set to be updated
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package             Arch         Version                  Repository      Size
+================================================================================
+Installing:
+ pgadmin3_90         i386         1.12.3-1.rhel5           pgdg90         9.0 M
+
+Transaction Summary
+================================================================================
+Install       1 Package(s)
+Upgrade       0 Package(s)
+
+Total download size: 9.0 M
+Is this ok [y/N]: y
+Downloading Packages:
+pgadmin3_90-1.12.3-1.rhel5.i386.rpm                      | 9.0 MB     00:09     
+Running rpm_check_debug
+Running Transaction Test
+Finished Transaction Test
+Transaction Test Succeeded
+Running Transaction
+  Installing     : pgadmin3_90                                              1/1 
+
+Installed:
+  pgadmin3_90.i386 0:1.12.3-1.rhel5                                             
+
+Complete!
+[root@localhost ~]# yum install pgadmim3
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: centos.secrel.com.br
+ * extras: mirrors.igsobe.com
+ * updates: centos.secrel.com.br
+Excluding Packages from CentOS-5 - Base
+Finished
+Excluding Packages from CentOS-5 - Updates
+Finished
+Setting up Install Process
+No package pgadmim3 available.
+Nothing to do
+[root@localhost ~]# yum install pgadmim3_90
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: centos.secrel.com.br
+ * extras: mirrors.igsobe.com
+ * updates: centos.secrel.com.br
+Excluding Packages from CentOS-5 - Base
+Finished
+Excluding Packages from CentOS-5 - Updates
+Finished
+Setting up Install Process
+No package pgadmim3_90 available.
+Nothing to do
+[root@localhost ~]# yum search pgadmin
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: centos.secrel.com.br
+ * extras: mirrors.igsobe.com
+ * updates: centos.secrel.com.br
+Excluding Packages from CentOS-5 - Base
+Finished
+Excluding Packages from CentOS-5 - Updates
+Finished
+=============================== Matched: pgadmin ===============================
+pgadmin3_90.i386 : Graphical client for PostgreSQL
+pgadmin3_90-debuginfo.i386 : Debug information for package pgadmin3_90
+pgadmin3_90-docs.i386 : Documentation for pgAdmin3
+phpPgAdmin.noarch : Web-based PostgreSQL administration
+[root@localhost ~]# yum install pgadmin3
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: centos.secrel.com.br
+ * extras: mirrors.igsobe.com
+ * updates: centos.secrel.com.br
+Excluding Packages from CentOS-5 - Base
+Finished
+Excluding Packages from CentOS-5 - Updates
+Finished
+Setting up Install Process
+No package pgadmin3 available.
+Nothing to do
+[root@localhost ~]# yum install pgadmin3_90
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: centos.secrel.com.br
+ * extras: mirrors.igsobe.com
+ * updates: centos.secrel.com.br
+Excluding Packages from CentOS-5 - Base
+Finished
+Excluding Packages from CentOS-5 - Updates
+Finished
+Setting up Install Process
+Package pgadmin3_90-1.12.3-1.rhel5.i386 already installed and latest version
+Nothing to do
+[root@localhost ~]# 

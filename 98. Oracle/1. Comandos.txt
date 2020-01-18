@@ -1,0 +1,17 @@
+----------------------
+-- Linha de comando --
+----------------------
+
+-- Conectar
+sqlplus <user>/<password>@<db_ip>/<db_name>
+sqlplus system/alex1505@127.0.0.1/xe
+
+ou
+
+CONNECT <usuario>/<senha>@<ip>/<instancia> *
+
+
+-- Comandos
+Select * From dual;
+Select sysdate From dual;
+

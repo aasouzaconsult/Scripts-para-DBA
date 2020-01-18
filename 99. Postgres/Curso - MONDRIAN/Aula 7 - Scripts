@@ -1,0 +1,400 @@
+﻿-- 29/10/2011
+
+-- Observações; PGPOLL (Espelhamento)
+                -- balanceamento de carga na leitura
+
+----------------
+-- Transações --
+----------------
+Select * From contas;
+
+begin;
+	delete from contas;
+
+rollback; -- desfazer (somente funções SQL, exemplo; insert, update, delete. ( x=x+1 não desfaz)) 
+--commit; -- confirmar
+
+--------------------------------------------------------------------
+-- Qual erro que der ele já dá um rollback (Exemplo)
+Select * From contas;
+
+begin;
+	delete from contas;
+	select 0/2; -- dá um rollback automatico por causa do erro
+
+rollback; -- desfazer
+--------------------------------------------------------------------
+-- SAVEPOINT
+-- Criar um exemplo
+
+--------------------------------------------------------------------
+-- Tratamento de Excessão
+-------------------------
+
+Select 2/0;
+--ERRO:  divisão por zero
+--
+--********** Error **********
+--
+--ERRO: divisão por zero
+--SQL state: 22012 -- No Apendice A da Documentação do PostgreSQL (Sessão: 22 - Erro: 012)
+--http://pgdocptbr.sourceforge.net/pg80/errcodes-appendix.html
+
+
+create or replace function divide (a integer, b integer) returns numeric(15,2) as
+$$
+	begin
+		return a/b;
+	exception
+		when division_by_zero then
+			return -1;
+	end;
+$$
+language plpgsql
+
+Select divide(100,0);
+
+--------------------------------------------------------------------
+-- TRIGGERS
+-----------
+--NEW - Record dados novos
+--OLD - Record dados antigos
+--TG_NAME - Nome da trigger disparada
+--TG_WHEN - BEFORE ou AFTER (After é mais utilizada para histórico/log - After não cabe tratamento de excessão)
+--TG_OP - INSERT, UPDATE ou DELETE
+--TG_TABLE_NAME - Tabela que disparou a trigger
+--TG_TABLE_SCHEMA - SCHEMA a tabela que disparou a trigger
+
+CREATE TABLE emp(
+	nome varchar not null,
+	salario numeric(15,2)
+);
+
+CREATE TABLE emp_audit(
+	operacao char(1) NOT NULL,
+	hora     timestamp NOT NULL,
+	usuario  text NOT NULL,
+	nome_emp text NOT NULL,
+	salario	 numeric(15,2)
+);
+
+Select * From emp;
+Select * From emp_audit;
+
+-- TRIGGER AFTER
+create or replace function processa_emp_audit() RETURNS TRIGGER AS $emp_audit$
+BEGIN
+	IF (TG_OP = 'DELETE') THEN
+		INSERT INTO emp_audit SELECT 'D', now(), user, OLD.*; -- OLD.* - Campos da tabela emp;
+		RETURN OLD;
+	ELSIF (TG_OP = 'UPDATE') THEN
+		INSERT INTO emp_audit SELECT 'U', now(), user, NEW.*; -- NEW.* - Campos da tabela emp;
+		RETURN NEW;
+	ELSIF (TG_OP = 'INSERT') THEN
+		INSERT INTO emp_audit SELECT 'I', now(), user, NEW.*; -- NEW.* - Campos da tabela emp;
+		RETURN NEW;
+	END IF;
+
+	RETURN NULL; -- result é ignorado, quando for uma trigger after
+END;
+$emp_audit$ LANGUAGE plpgsql
+
+CREATE TRIGGER emp_audit
+   AFTER INSERT OR UPDATE OR DELETE ON emp
+      FOR EACH ROW EXECUTE PROCEDURE processa_emp_audit(); -- FOR EACH ROW - para cada linha
+
+INSERT INTO emp values ('Alex' , 100000.00);
+INSERT INTO emp values ('João' , 5000.00)
+,		       ('Maria', 12300.00);
+INSERT INTO emp values ('José Ribeiro' , 3000.00);
+INSERT INTO emp values ('Fabiano' , 1000.00);
+INSERT INTO emp values ('Sr. Nimbus' , 2523500.00);
+
+UPDATE 	emp
+Set	salario = 15000.00
+Where	nome = 'Fabiano';
+
+Begin;
+UPDATE 	emp
+Set	salario = 5500.00
+Where	nome = 'João';
+rollback;
+
+UPDATE 	emp
+Set	salario = 5500.00
+Where	nome = 'João';
+
+DELETE FROM emp
+WHERE   nome = 'Sr. Nimbus';
+
+Select * From emp;
+Select * From emp_audit;
+
+
+-- TRIGGER BEFORE
+CREATE OR REPLACE FUNCTION fnc_alt_pessoa() returns trigger as
+$$
+	begin
+		new.nome := upper(new.nome);
+		return new;
+	end;
+$$
+language plpgsql
+
+CREATE TRIGGER trg_pessoa 
+   BEFORE INSERT OR UPDATE ON pessoas
+      FOR EACH ROW EXECUTE PROCEDURE fnc_alt_pessoa(); -- FOR EACH ROW - para cada linha
+
+INSERT INTO pessoas values (6, 'Sr. Nimbus', 44444444444, 32);
+UPDATE pessoas set idade = 26 where nome = 'Beltrano';
+Select * From Pessoas;
+
+-- Coloca em maiuscula caso a idade for maior que 20
+CREATE OR REPLACE FUNCTION fnc_alt_pessoa() returns trigger as
+$$
+	begin
+		if NEW.idade > 20 then
+			new.nome := upper(new.nome);
+		end if;
+		return new;
+	end;
+$$
+language plpgsql
+
+INSERT INTO pessoas values (7, 'Fabiano N. Amorim', 54545444444, 42);
+INSERT INTO pessoas values (8, 'Luiz', 64545444444, 15);
+Select * From Pessoas;
+
+-- Coloca em maiuscula caso a idade for maior que 20
+CREATE OR REPLACE FUNCTION fnc_alt_pessoa1() returns trigger as
+$$
+	begin
+		if NEW.idade > 20 then
+			new.nome := upper(new.nome);
+			return new;
+		else
+			raise notice 'Não é possível cadastrar pessoas com idade inferior a 20 anos';
+			return null;
+		end if;
+	end;
+$$
+language plpgsql
+
+CREATE TRIGGER trg_pessoa_naocrianca 
+   BEFORE INSERT OR UPDATE ON pessoas
+      FOR EACH ROW EXECUTE PROCEDURE fnc_alt_pessoa1(); -- FOR EACH ROW - para cada linha
+
+INSERT INTO pessoas values (9, 'Joãozim', 94545444000, 19);
+Select * From Pessoas;
+
+--------------------------------------------
+-- DICIONARIO DE RETORNO (TRANSFERENCIAS) --
+--------------------------------------------
+-- 0 - OK
+-- 1 - Conta Origem inválida
+-- 2 - Conta Destino inválida
+-- 3 - Conta Origem e Destino iguais
+-- 4 - Saldo insuficiente
+-- 5 - Valor inválido
+-- 6 - Data inválida
+
+Select * From Pessoas;
+Select * From Contas;v
+Select * From Transferencias;
+
+
+CREATE TABLE log (log varchar);
+
+CREATE OR REPLACE FUNCTION fnc_transferencias (pcta_origem integer, pcta_destino integer
+					, pvalor numeric(15,2), pdata date)
+RETURNS integer as
+$$
+	Declare
+		vorigem record;
+		vdestino record;
+		retorno integer = 0;
+		texto text;
+		id_tra integer;
+	Begin
+		texto := 'REGISTRANDO TENTATIVAS DE TRANSFERENCIAS';
+		-- validando se as contas são iguais
+		if pcta_origem = pcta_destino then
+			retorno := 3;
+		end if;
+
+		-- validando o valor que dever ser positivo
+		if pvalor <= 0 then
+			retorno :=  5;
+		end if;
+
+		-- validando a data de transferencia
+		if pdata < now() then
+			retorno :=  6;
+		end if;
+		
+		-- validando se a conta de origem é uma conta valida
+		select * into vorigem from contas
+		where id = pcta_origem;
+
+		if not FOUND then
+			retorno := 1;
+		end if;
+
+		-- validando o saldo da conta de origemv
+		if FOUND then
+			if vorigem.saldo < pvalor then
+				retorno := 4;
+			end if;
+		end if;
+
+		-- validando se a conta destino é uma conta valida
+		select * into vdestino from contas
+		where id = pcta_destino;
+
+		if not FOUND then
+			retorno := 2;
+		end if;
+
+		if retorno = 0 then
+			-- retira o saldo da origem
+			update 	contas
+			set	saldo = saldo - pvalor
+			where 	id = pcta_origem;
+
+			-- cadastra a transferencias
+			insert into transferencias (id_conta_origem, id_conta_destino, data, valor)
+			values (vorigem.id, vdestino.id, pdata, pvalor) returning id into id_tra;
+
+			-- adiciona o saldo no destino
+			update 	contas
+			set	saldo = saldo + pvalor
+			where 	id = pcta_destino;
+
+		end if;
+
+		insert into log values ('log de transf - usuario: ' || user || 
+						       ' hora: '    || now()||
+						       ' status: '  || retorno ||
+						       ' id tranf: '|| coalesce(id_tra::varchar, ''));
+		return retorno;
+		
+		Exception
+			when others then 
+				return -1;
+				
+	End;
+$$
+language plpgsql
+
+Select * from Contas
+Select fnc_transferencias(2,1,300.00,'2011-10-30');
+
+Select * from log
+
+--------------------------------------------------
+-- ************ USANDO TRIGGER **************** --
+--------------------------------------------------
+
+CREATE OR REPLACE FUNCTION fnc_transferencias_trg (pcta_origem integer, pcta_destino integer
+					, pvalor numeric(15,2), pdata date)
+RETURNS integer as
+$$
+	Declare
+		vorigem record;
+		vdestino record;
+		retorno integer = 0;
+		texto text;
+		id_tra integer;
+	Begin
+		texto := 'REGISTRANDO TENTATIVAS DE TRANSFERENCIAS';
+		-- validando se as contas são iguais
+		if pcta_origem = pcta_destino then
+			retorno := 3;
+		end if;v
+
+		-- validando o valor que dever ser positivo
+		if pvalor <= 0 then
+			retorno :=  5;
+		end if;
+
+		-- validando a data de transferencia
+		if pdata < now() then
+			retorno :=  6;
+		end if;
+		
+		-- validando se a conta de origem é uma contva valida
+		select * into vorigem from contas
+		where id = pcta_origem;
+
+		if not FOUND then
+			retorno := 1;
+		end if;
+
+		-- validando o saldo da conta de origemv
+		if FOUND then
+			if vorigem.saldo < pvalor then
+				retorno := 4;
+			end if;
+		end if;
+
+		-- validando se a conta destino é uma conta valida
+		select * into vdestino from contas
+		where id = pcta_destino;
+
+		if not FOUND then
+			retorno := 2;
+		end if;
+
+		if retorno = 0 then
+			-- retira o saldo da origem
+			update 	contas
+			set	saldo = saldo - pvalor
+			where 	id = pcta_origem;
+
+			-- cadastra a transferencias
+			insert into transferencias (id_conta_origem, id_conta_destino, data, valor)
+			values (vorigem.id, vdestino.id, pdata, pvalor) returning id into id_tra;
+
+			-- adiciona o saldo no destino
+			update 	contas
+			set	saldo = saldo + pvalor
+			where 	id = pcta_destino;
+		else
+			insert into log values ('TENTATIVA - log de transf - usuario: ' || user || 
+						       ' hora: '    || now()||
+						       ' status: '  || retorno ||
+						       ' id tranf: '|| coalesce(id_tra::varchar, ''));
+		end if;
+
+		
+		return retorno;
+		
+		Exception
+			when others then 
+				return -1;
+				
+	End;
+$$
+language plpgsql
+
+-- usar a trigger
+create or replace function fnc_tra() returns trigger as
+$$
+	Begin
+		insert into log values ('O usuario: ' || user ||
+				 ' cadastrou a transferencia: ' || NEW.id);
+		return new;
+	End;
+$$
+language plpgsql
+
+CREATE TRIGGER trg_log_transf1
+   AFTER INSERT ON transferencias
+      FOR EACH ROW EXECUTE PROCEDURE fnc_tra(); -- FOR EACH ROW - para cada linha
+
+Select * from Contas;
+Select * from Transferencias;
+
+Select fnc_transferencias_trg(1,2,300.00,'2011-10-30');
+
+Select * from log

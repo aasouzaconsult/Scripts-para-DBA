@@ -1,0 +1,53 @@
+Download Oracle XE 11G
+http://www.oracle.com/technetwork/products/express-edition/downloads/index.html
+
+Oracle SQL Developer
+http://www.oracle.com/technetwork/developer-tools/sql-developer/downloads/index.html
+
+NB-1113 - SYS e SYSTEM - alex1505
+
+##########################################################################
+
+1. Guia da Certificação Oracle (http://certificacaobd.com.br/guia-oracle-oca/)
+
+1.1 Primeira Prova
+  1Z0-051 – Oracle Database 11g: SQL Fundamentals I  (http://certificacaobd.com.br/1z0-051-oracle-database-11g-sql-fundamentals-i/)
+
+  Materiais:
+
+  http://www.youtube.com/playlist?list=PLC66D97E93DA8BCE7
+  -> proxima - Aula 3
+
+1.2 Segunda Prova
+   1Z0-052 – Oracle Database 11G: Administration I (http://certificacaobd.com.br/1z0-052-oracle-database-11g-administration-i/)
+ou 1Z0-062 - Oracle Database 12C
+
+##########################################################################
+-- Caminho mais curto
+- Valor: $ 370 
+
+Livros: Google Drive\BD\Oracle
+Links: http://pessoalex.wordpress.com/banco-de-dados/dicas-oracle/
+Simulados: Oracle Press, Kaplan Selftest e Sybex;
+
+https://education.oracle.com/pls/web_prod-plq-dad/db_pages.getpage?page_id=652&get_params=p_exam_id:1Z0-051
+https://education.oracle.com/pls/web_prod-plq-dad/db_pages.getpage?page_id=652&get_params=p_exam_id:1Z0-052
+https://education.oracle.com/pls/web_prod-plq-dad/db_pages.getpage?page_id=652&get_params=p_exam_id:1Z0-062
+
+Site da ORACLE
+@@$150581_Li
+##########################################################################
+
+OCA Obtido!!!
+
+
+
+--------
+Dúvidas:
+--------
+
+Usuário: System e Sys do Oracle?
+Tablespace Default?
+Tablespace Temporário?
+Criar um banco de dados no oracle
+
