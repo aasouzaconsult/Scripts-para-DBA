@@ -1,0 +1,13 @@
+create function dbo.AlinharADireita(@campo as varchar(max), @tamanho as int)
+returns varchar(max)
+begin
+ declare @resultado as varchar(max)
+ 
+ select @resultado = right(replicate(' ', @tamanho)+@campo,@tamanho)
+ 
+ return @resultado
+end
+a chamada dela pode ser
+print 'Fredy'+dbo.AlinharADireita('0.20',10)
+ou
+select 'Fredy'+dbo.AlinharADireita('0.20',10)
