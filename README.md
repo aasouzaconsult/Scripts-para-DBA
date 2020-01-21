@@ -10,7 +10,7 @@ Administrador de banco de dados, comumente chamado de DBA (sigla em inglês de D
 # Link de Blogs de DBA´s
 Coletânea de sites e blogs de banco de dados e tecnologias relacionadas (https://pessoalex.wordpress.com/dados/estruturados/banco-de-dados/blogs/)
 
-# Mais alguns links úteis
+# Mais alguns links úteis no dia a dia de um DBA
 - DBA CheckList (https://pessoalex.wordpress.com/2012/06/02/dba-checklist-o-que-analisar-webcast/)
 - Banco de Dados corrompido (https://pessoalex.wordpress.com/2012/01/14/analise-de-um-banco-de-dados-corrompido/)
 - Concorrência de Dados (https://pessoalex.wordpress.com/2012/03/22/concorrencia-de-dados-sql-server/)
