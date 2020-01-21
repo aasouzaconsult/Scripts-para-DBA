@@ -30,3 +30,4 @@ Mestre em Ciência da Computação com foco em Inteligência Artificial, mais es
 - Blog (https://pessoalex.wordpress.com/)
 - LinkedIN (https://www.linkedin.com/in/alex-souza/)
 - Lattes (http://lattes.cnpq.br/3318149614519892)
+- Contato (https://pessoalex.wordpress.com/quem-somos/fale-conosco/)
