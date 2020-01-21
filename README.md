@@ -5,10 +5,10 @@ Repassando os scripts que sempre utilizei e utilizo para ajudar a comunidade de 
 Em caso de Dúvidas, fico a disposição.
 
 # O que é um DBA?
-https://pessoalex.wordpress.com/dados/estruturados/banco-de-dados/dba/
+Administrador de banco de dados, comumente chamado de DBA (sigla em inglês de Database administrator), é o profissional responsável por gerenciar, instalar, configurar, atualizar e monitorar um banco de dados ou sistemas de bancos de dados. Mais em: https://pessoalex.wordpress.com/dados/estruturados/banco-de-dados/dba/
 
 # Link de Blogs de DBA´s
-https://pessoalex.wordpress.com/dados/estruturados/banco-de-dados/blogs/
+Coletânea de sites e blogs de banco de dados e tecnologias relacionadas (https://pessoalex.wordpress.com/dados/estruturados/banco-de-dados/blogs/)
 
 # Mais alguns links úteis
 - DBA CheckList (https://pessoalex.wordpress.com/2012/06/02/dba-checklist-o-que-analisar-webcast/)
