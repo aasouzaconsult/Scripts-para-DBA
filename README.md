@@ -12,6 +12,7 @@ Coletânea de sites e blogs de banco de dados e tecnologias relacionadas (https:
 
 # Mais alguns links úteis no dia a dia de um DBA
 - DBA CheckList (https://blogdozouza.wordpress.com/2012/06/02/dba-checklist-o-que-analisar-webcast/)
+- Ferramentas para DBA SQL Server (https://github.com/microsoft/tigertoolbox)
 - Banco de Dados corrompido (https://blogdozouza.wordpress.com/2012/01/14/analise-de-um-banco-de-dados-corrompido/)
 - Concorrência de Dados (https://blogdozouza.wordpress.com/2012/03/22/concorrencia-de-dados-sql-server/)
 - Transações no SQL Server (https://blogdozouza.wordpress.com/2008/11/16/transacoes-no-sql-server-commit-e-rollback-transaction/)
