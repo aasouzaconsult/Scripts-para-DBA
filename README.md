@@ -30,5 +30,3 @@ Coletânea de sites e blogs de banco de dados e tecnologias relacionadas (https:
 Mestre em Ciência da Computação com foco em Inteligência Artificial, mais especificamente utilizando Natural Language Processing (NLP) pela Universidade Estadual do Ceará. Especialista em Gestão de Banco de Dados e Especialista em Governança de TI pela Estácio FIC. MCTS - SQL Server Implementação e Manutenção (Administração)
 - Blog (https://blogdozouza.wordpress.com/)
 - LinkedIN (https://www.linkedin.com/in/alex-souza/)
-- Lattes (http://lattes.cnpq.br/3318149614519892)
-- Contato (https://blogdozouza.wordpress.com/quem-somos/fale-conosco/)
