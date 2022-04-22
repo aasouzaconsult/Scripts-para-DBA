@@ -26,7 +26,11 @@ Coletânea de sites e blogs de banco de dados e tecnologias relacionadas (https:
 - Dicas de SQL Server (https://blogdozouza.wordpress.com/2012/07/27/dicas-de-sql-server-por-pinal-dave-ferramentas-dicas-e-videos/)
 - Mais dicas de SQL Server (https://blogdozouza.wordpress.com/dados/estruturados/banco-de-dados/relacionais/sql-server/materialdeapoio/)
 
+------
 # Alex Souza
 Mestre em Ciência da Computação com foco em Inteligência Artificial, mais especificamente utilizando Natural Language Processing (NLP) pela Universidade Estadual do Ceará. Especialista em Gestão de Banco de Dados e Especialista em Governança de TI pela Estácio FIC. MCTS - SQL Server Implementação e Manutenção (Administração)
-- Blog (https://blogdozouza.wordpress.com/)
-- LinkedIN (https://www.linkedin.com/in/alex-souza/)
+
+[Mais informações e contatos (Instagram | Linkedin | Blog | Twitter ...)](https://linktr.ee/data.z)
+
+------
+![github-contribution-grid-snake](https://user-images.githubusercontent.com/29084827/164712340-6b03015f-a428-4731-b1b9-a5605de203b2.svg)
